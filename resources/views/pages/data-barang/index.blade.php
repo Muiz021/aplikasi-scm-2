@@ -1,6 +1,10 @@
 @extends('base')
 
+@if (Auth::user()->roles == 'admin')
+@section('roles', 'Admin')
+@else
 @section('roles', 'Supplier')
+@endif
 @section('title', 'data barang')
 
 @section('content')
@@ -21,6 +25,9 @@
                                 <tr>
                                     <th scope="col">No</th>
                                     <th scope="col">Kode Supplier</th>
+                                    @if (Auth::user()->roles == 'admin')
+                                    <th scope="col">Nama Supplier</th>
+                                    @endif
                                     <th scope="col">Kode Barang</th>
                                     <th scope="col">Nama</th>
                                     <th scope="col">Jenis</th>
@@ -35,6 +42,9 @@
                                     <tr>
                                         <td>{{ $data_barang->firstItem() + $key }}</td>
                                         <td>{{ $item->supplier->kode_supplier }}</td>
+                                        @if (Auth::user()->roles == 'admin')
+                                        <td>{{ $item->supplier->nama }}</td>
+                                        @endif
                                         <td>{{ $item->kode_barang }}</td>
                                         <td>{{ $item->nama_barang }}</td>
                                         <td>{{ $item->jenis_barang->nama }}</td>

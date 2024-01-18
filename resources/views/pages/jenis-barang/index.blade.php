@@ -1,6 +1,10 @@
 @extends('base')
 
+@if (Auth::user()->roles == 'admin')
+@section('roles', 'Admin')
+@else
 @section('roles', 'Supplier')
+@endif
 @section('title', 'jenis barang')
 
 @section('content')

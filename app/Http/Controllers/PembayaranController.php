@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use App\Models\Pembayaran;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -56,10 +57,30 @@ class PembayaranController extends Controller
         $data['status'] = 'proses';
         $data['kode_pembayaran'] = $data['kode_bayar'];
 
-        Pembayaran::create($data);
+       $pembayaran = Pembayaran::create($data);
 
-        Alert::success("Sukses", "berhasil membuat struk pembayaran");
-        return redirect()->back();
+          // notifikasi whatsapps
+          $client = new Client();
+          $url = "http://47.250.13.56/message";
+
+          $wa = $pemesanan_admin->supplier->nomor_ponsel;
+          $message = "Admin sedang memesan barang pada kamu dengan kode pemesanan ".$pemesanan_admin->kode_pemesanan." dan metode pembayaran".$pembayaran->metode_pembayaran;
+
+          $body = [
+              'phoneNumber' => $wa,
+              'message' => $message,
+          ];
+
+          $client->request('POST', $url, [
+              'form_params' => $body,
+              'verify'  => false,
+          ]);
+
+
+
+          Alert::success("Sukses", "berhasil membuat struk pembayaran");
+        //   return redirect()->back();
+          return redirect()->back();
     }
 
     public function upload_struk_pembayaran(Request $request, $id)

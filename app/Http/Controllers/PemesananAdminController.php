@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use App\Models\Supplier;
 use App\Models\DataBarang;
 use Illuminate\Http\Request;
@@ -44,7 +45,7 @@ class PemesananAdminController extends Controller
         $total = $data['harga'] * $data['jumlah'];
 
         // membuat pemesanan admin
-        PemesananAdmin::create([
+       $pemesanan_admin = PemesananAdmin::create([
             'supplier_id' => $data['supplier_id'],
             'data_barang_id' => $data['data_barang_id'],
             'waktu_pemesanan' => $today,
@@ -52,7 +53,6 @@ class PemesananAdminController extends Controller
             'jumlah' => $data['jumlah'],
             'total' => $total
         ]);
-
 
         return redirect()->route('pemesanan-barang.index');
     }

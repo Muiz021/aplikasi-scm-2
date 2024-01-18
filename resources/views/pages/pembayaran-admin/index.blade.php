@@ -1,6 +1,11 @@
 @extends('base')
 
-@section('roles', 'Admin')
+@if (Auth::user()->roles == 'admin')
+    @section('roles', 'Admin')
+@else
+    @section('roles', 'Supplier')
+@endif
+
 @section('title', 'pembayaran barang')
 
 @section('content')
@@ -40,24 +45,21 @@
                                         @endif
                                         <td>
                                             <div class="d-flex">
-                                                <button class="btn btn-sm btn-info text-white me-2"
-                                                    data-bs-toggle="modal"
+                                                <button class="btn btn-sm btn-info text-white me-2" data-bs-toggle="modal"
                                                     data-bs-target="#show-struk-{{ $item->id }}">Show</button>
-                                                    @if (Auth::user()->roles == 'admin')
+                                                @if (Auth::user()->roles == 'admin')
                                                     <button class="btn btn-sm btn-danger me-2" data-bs-toggle="modal"
                                                         data-bs-target="#delete-pemesanan-barang-{{ $item->id }}">Hapus</button>
-                                                    @endif
+                                                @endif
                                                 @if (Auth::user()->roles == 'admin' && $item->pembayaran->gambar == null)
-                                                    <button class="btn btn-sm btn-info text-white"
-                                                        data-bs-toggle="modal"
+                                                    <button class="btn btn-sm btn-info text-white" data-bs-toggle="modal"
                                                         data-bs-target="#upload-struk-{{ $item->id }}">Upload
                                                         Stuk</button>
                                                 @endif
                                                 @if (Auth::user()->roles == 'supplier' && $item->pembayaran->status == 'proses')
-                                                <button class="btn btn-sm btn-success text-white"
-                                                        data-bs-toggle="modal"
+                                                    <button class="btn btn-sm btn-success text-white" data-bs-toggle="modal"
                                                         data-bs-target="#edit-struk-{{ $item->id }}">Edit</button>
-                                            @endif
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>

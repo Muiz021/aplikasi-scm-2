@@ -23,7 +23,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
-                                    <th scope="col">Waktu pemesanan</th>
+                                    <th scope="col">Waktu pembayaran</th>
                                     <th scope="col">Total</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Aksi</th>

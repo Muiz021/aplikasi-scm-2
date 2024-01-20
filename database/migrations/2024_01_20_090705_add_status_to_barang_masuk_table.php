@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('pemesanan_admin', function (Blueprint $table) {
-            $table->unsignedBigInteger('supplier_id')->after('id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+        Schema::table('barang_masuk', function (Blueprint $table) {
+            $table->enum('status', ['perjalanan', 'sampai'])->nullable()->after('jumlah');
         });
     }
 
@@ -26,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('pemesanan_admin', function (Blueprint $table) {
-            $table->dropForeign('pemesanan_admin_supplier_id_foreign');
+        Schema::table('barang_masuk', function (Blueprint $table) {
+            $table->dropColumn('status');
         });
     }
 };

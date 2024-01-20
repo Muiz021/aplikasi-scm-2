@@ -11,8 +11,6 @@ class DataBarang extends Model
     protected $guarded = ['id'];
     protected $table = 'data_barang';
 
-    protected $with= 'jenis_barang';
-
     /**
      * relasi tabel
      */

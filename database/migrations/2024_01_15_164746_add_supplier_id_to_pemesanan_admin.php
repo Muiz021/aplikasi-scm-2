@@ -27,7 +27,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('pemesanan_admin', function (Blueprint $table) {
-            //
+            $table->dropForeign('pemesanan_admin_supplier_id_foreign');
         });
     }
 };

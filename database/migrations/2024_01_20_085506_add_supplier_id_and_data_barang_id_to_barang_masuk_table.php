@@ -13,7 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('pemesanan_admin', function (Blueprint $table) {
+        Schema::table('barang_masuk', function (Blueprint $table) {
+            $table->unsignedBigInteger('supplier_id')->after('id')->nullable();
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('data_barang_id')->after('supplier_id')->nullable();
             $table->foreign('data_barang_id')->references('id')->on('data_barang')->onDelete('cascade')->onUpdate('cascade');
         });
@@ -26,8 +28,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('pemesanan_admin', function (Blueprint $table) {
-            $table->dropForeign('pemesanan_admin_data_barang_id_foreign');
+        Schema::table('barang_masuk', function (Blueprint $table) {
+            $table->dropForeign('barang_masuk_supplier_id_foreign');
+            $table->dropForeign('barang_masuk_data_barang_id_foreign');
         });
     }
 };

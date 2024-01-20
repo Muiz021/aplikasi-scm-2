@@ -39,7 +39,7 @@
                 <div class="nav-item dropdown">
                     <a href="#"
                         class="nav-link {{ request()->is('admin/master/data_barang', 'admin/master/jenis_barang', 'admin/master/merek_barang') ? 'active' : '' }} dropdown-toggle show"
-                        data-bs-toggle="dropdown" aria-expanded="true"><i class="fa fa-th me-2"></i></i>Master</a>
+                        data-bs-toggle="dropdown" aria-expanded="true"><i class="fa fa-th me-2"></i></i>{{Auth::user()->roles == 'admin' ? 'Barang Supplier' : 'Master'}}</a>
                     <div class="dropdown-menu bg-transparent border-0 show" data-bs-popper="none">
                         <a href="{{ route('admin.data_barang.index') }}"
                             class="dropdown-item {{ request()->is('admin/master/data_barang*') ? 'active' : '' }}">Data

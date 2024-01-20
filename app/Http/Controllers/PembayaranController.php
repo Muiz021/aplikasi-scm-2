@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use App\Models\DataBarang;
 use App\Models\Pembayaran;
 use App\Models\BarangMasuk;
 use Illuminate\Support\Str;
@@ -109,6 +110,12 @@ class PembayaranController extends Controller
 
         $pembayaran->update($data);
 
+        $data_barang = DataBarang::where('id',$pembayaran->pemesanan_admin->data_barang->id)->first();
+        $stok_barang_baru = $pembayaran->pemesanan_admin->jumlah - $data_barang->stok_barang;
+        $data_barang->update([
+            'stok_barang' => $stok_barang_baru
+        ]);
+
         // notifikasi whatsapps
         $client = new Client();
         $url = "http://47.250.13.56/message";
@@ -130,7 +137,6 @@ class PembayaranController extends Controller
         Alert::success("Sukses", "berhasil mengupload struk pembayaran");
         return redirect()->back();
     }
-
     public function update_status_pembayaran(Request $request, $id)
     {
         // mengambil pemesanan admin dan pembayaran

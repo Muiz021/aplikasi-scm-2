@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\BarangMasuk;
 use App\Models\User;
 use App\Models\DataBarang;
 use App\Models\Pembayaran;
@@ -31,8 +31,9 @@ class DashboardController extends Controller
         $jumlah_pembayaran_proses = Pembayaran::where('status','proses')->count();
         $jumlah_pembayaran_gagal = Pembayaran::where('status','gagal')->count();
         $jumlah_pembayaran_total = Pembayaran::count();
+        $barang_masuk = BarangMasuk::count();
 
-        return view('pages.dashboard.dashboard-admin',compact('jumlah_pembayaran_total','jumlah_pembayaran_gagal','jumlah_pembayaran_proses','jumlah_pembayaran_selesai','jumlah_jenis_barang','jumlah_merek_barang','jumlah_data_barang','supplier','konsumen','pemesanan_barang','user'));
+        return view('pages.dashboard.dashboard-admin',compact('barang_masuk','jumlah_pembayaran_total','jumlah_pembayaran_gagal','jumlah_pembayaran_proses','jumlah_pembayaran_selesai','jumlah_jenis_barang','jumlah_merek_barang','jumlah_data_barang','supplier','konsumen','pemesanan_barang','user'));
     }
 
     public function supplier_dashboard(){

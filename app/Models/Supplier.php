@@ -19,6 +19,11 @@ class Supplier extends Model
          return $this->belongsTo(User::class);
      }
 
+     public function barang_masuk()
+     {
+        return $this->belongsTo(BarangMasuk::class);
+     }
+
      public function data_barang()
      {
          return $this->hasMany(DataBarang::class);

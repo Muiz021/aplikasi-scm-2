@@ -64,7 +64,7 @@
                         <a href="{{ route('pembayaran.index') }}"
                             class="dropdown-item {{ request()->is('admin/data-transaksi/pembayaran*') ? 'active' : '' }}">Pembayaran
                             ke supplier</a>
-                        <a href="#" class="dropdown-item">Transaksi barang masuk</a>
+                        <a href="{{route('barang_masuk.index')}}" class="dropdown-item {{ request()->is('admin/data-transaksi/barang_masuk*') ? 'active' : '' }}">Transaksi barang masuk</a>
                         <a href="#" class="dropdown-item">Transaksi barang keluar</a>
                     </div>
                 </div>

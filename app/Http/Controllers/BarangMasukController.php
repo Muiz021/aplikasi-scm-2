@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BarangMasuk;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class BarangMasukController extends Controller
 {
@@ -14,50 +15,8 @@ class BarangMasukController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\BarangMasuk  $barangMasuk
-     * @return \Illuminate\Http\Response
-     */
-    public function show(BarangMasuk $barangMasuk)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\BarangMasuk  $barangMasuk
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(BarangMasuk $barangMasuk)
-    {
-        //
+        $barang_masuk = BarangMasuk::paginate(10);
+        return view('pages.barang-masuk.index',compact('barang_masuk'));
     }
 
     /**
@@ -67,9 +26,15 @@ class BarangMasukController extends Controller
      * @param  \App\Models\BarangMasuk  $barangMasuk
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BarangMasuk $barangMasuk)
+    public function update(Request $request,$id)
     {
-        //
+        $barang_masuk = BarangMasuk::findOrFail($id);
+        $data = $request->all();
+
+        $barang_masuk->update($data);
+
+        Alert::success("Sukses", "berhasil memperbarui status barang masuk");
+        return redirect()->back();
     }
 
     /**
@@ -78,8 +43,12 @@ class BarangMasukController extends Controller
      * @param  \App\Models\BarangMasuk  $barangMasuk
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BarangMasuk $barangMasuk)
+    public function destroy($id)
     {
-        //
+        $barang_masuk = BarangMasuk::findOrFail($id);
+        $barang_masuk->delete();
+
+        Alert::success("Sukses", "berhasil menghapus barang masuk");
+        return redirect()->back();
     }
 }

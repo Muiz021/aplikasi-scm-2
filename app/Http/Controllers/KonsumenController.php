@@ -38,11 +38,9 @@ class KonsumenController extends Controller
         $data = $request->all();
 
         if ($request->gambar) {
-            if ($konsumen->gambar->exists()) {
-                $baseURL = url('/');
-                $file_path = Str::replace($baseURL . '/img/konsumen/', '', public_path() . '/img/konsumen/' . $konsumen->gambar);
-                unlink($file_path);
-            }
+            $baseURL = url('/');
+            $file_path = Str::replace($baseURL . '/img/konsumen/', '', public_path() . '/img/konsumen/' . $konsumen->gambar);
+            unlink($file_path);
 
             $gambar = $request->file('gambar');
             $penempatan_file = 'img/konsumen/';

@@ -84,7 +84,7 @@ class DataBarangController extends Controller
         if ($request->foto_barang) {
             $baseURL = url('/');
             $file_path = Str::replace($baseURL . '/img/barang/', '', public_path() . '/img/barang/' . $data_barang->foto_barang);
-            if ($data_barang->foto_barang != null) {
+            if (file_exists($file_path)) {
                 unlink($file_path);
             }
 

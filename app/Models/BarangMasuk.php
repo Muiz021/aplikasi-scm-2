@@ -11,4 +11,20 @@ class BarangMasuk extends Model
 
     protected $guarded = ['id'];
     protected $table = 'barang_masuk';
+
+    /**
+     * Relasi
+     */
+
+     public function supplier()
+     {
+        return $this->hasOne(Supplier::class,'id','supplier_id');
+     }
+
+     public function data_barang()
+     {
+        return $this->hasOne(DataBarang::class,'id','data_barang_id');
+     }
+
+
 }

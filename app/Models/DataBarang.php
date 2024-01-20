@@ -29,6 +29,12 @@ class DataBarang extends Model
         return $this->belongsTo(Supplier::class);
     }
 
+    public function barang_masuk()
+    {
+       return $this->belongsTo(BarangMasuk::class);
+    }
+
+
     // public function datail_pemesanan_barang()
     // {
     // return $this->belongsTo(PemesananAdminDetail::class);

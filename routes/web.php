@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\KonsumenController;
 
 use App\Http\Controllers\SupplierController;
@@ -58,7 +59,7 @@ Route::prefix('admin')->middleware(['auth', 'OnlyAdmin'])->group(function () {
     Route::prefix('data-transaksi')->group(function () {
         // pemesanan barang ke supplier
         Route::resource('pemesanan-barang', PemesananAdminController::class);
-        Route::get('get_supplier_data_barang',[PemesananAdminController::class,'get_supplier_data_barang'])->name('get_supplier_data_barang');
+        Route::get('get_supplier_data_barang', [PemesananAdminController::class, 'get_supplier_data_barang'])->name('get_supplier_data_barang');
         Route::get('get_pemesanan_admin', [PemesananAdminController::class, 'get_pemesanan_admin'])->name('get_pemesanan_admin');
 
         // detail pemesanan barang ke supplier
@@ -66,15 +67,17 @@ Route::prefix('admin')->middleware(['auth', 'OnlyAdmin'])->group(function () {
         Route::post('store-data-barang', [PemesananAdminController::class, 'store_detail_pemesanan'])->name('detail_pemesanan_barang.store');
         Route::delete('delete-data-barang/{id}', [PemesananAdminController::class, 'destroy_detail_pemesanan'])->name('destroy_detail_pemesanan');
 
+        // barang masuk
+        Route::resource('barang_masuk', BarangMasukController::class)->except('create','store', 'edit', 'show');
         // pembayaran
         Route::resource('pembayaran', PembayaranController::class);
         Route::get('get_kode_pembayaran', [PembayaranController::class, 'get_kode_pembayaran'])->name('get_kode_pembayaran');
-        Route::put('upload_struk_pembayaran/{id}',[PembayaranController::class,'upload_struk_pembayaran'])->name('upload_struk_pembayaran');
+        Route::put('upload_struk_pembayaran/{id}', [PembayaranController::class, 'upload_struk_pembayaran'])->name('upload_struk_pembayaran');
     });
 
     Route::prefix('master')->group(function () {
         // jenis barang
-        Route::resource('/jenis_barang', JenisBarangController::class)->except('create','store','update','destroy', 'edit', 'show')->names(
+        Route::resource('/jenis_barang', JenisBarangController::class)->except('create', 'store', 'update', 'destroy', 'edit', 'show')->names(
             [
                 'index' => 'admin.jenis_barang.index',
                 'show' => 'admin.jenis_barang.show',
@@ -82,7 +85,7 @@ Route::prefix('admin')->middleware(['auth', 'OnlyAdmin'])->group(function () {
         );
 
         // merek barang
-        Route::resource('/merek_barang', MerekBarangController::class)->except('create','store','update','destroy', 'edit', 'show')->names(
+        Route::resource('/merek_barang', MerekBarangController::class)->except('create', 'store', 'update', 'destroy', 'edit', 'show')->names(
             [
                 'index' => 'admin.merek_barang.index',
                 'show' => 'admin.merek_barang.show',
@@ -90,9 +93,9 @@ Route::prefix('admin')->middleware(['auth', 'OnlyAdmin'])->group(function () {
         );
 
         // data barang
-        Route::resource('data_barang', DataBarangController::class)->except('create','store','update','destroy', 'edit', 'show')->names(
+        Route::resource('data_barang', DataBarangController::class)->except('create', 'store', 'update', 'destroy', 'edit', 'show')->names(
             [
-            'index' => 'admin.data_barang.index',
+                'index' => 'admin.data_barang.index',
                 'show' => 'admin.data_barang.show',
             ]
         );
@@ -119,8 +122,8 @@ Route::prefix('supplier')->middleware(['auth', 'OnlySupplier'])->group(function 
     Route::get('get-count', [DataBarangController::class, 'getCount']);
 
     // pembayaran
-    Route::get('pembayaran',[PembayaranController::class,'index'])->name('admin.pembayaran.index');
-    Route::put('update_status_pembayaran/{id}',[PembayaranController::class,'update_status_pembayaran'])->name('update_status_pembayaran');
+    Route::get('pembayaran', [PembayaranController::class, 'index'])->name('admin.pembayaran.index');
+    Route::put('update_status_pembayaran/{id}', [PembayaranController::class, 'update_status_pembayaran'])->name('update_status_pembayaran');
 });
 
 /**

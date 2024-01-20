@@ -45,7 +45,7 @@ class PemesananAdminController extends Controller
         $total = $data['harga'] * $data['jumlah'];
 
         // membuat pemesanan admin
-       $pemesanan_admin = PemesananAdmin::create([
+        PemesananAdmin::create([
             'supplier_id' => $data['supplier_id'],
             'data_barang_id' => $data['data_barang_id'],
             'waktu_pemesanan' => $today,
@@ -85,9 +85,9 @@ class PemesananAdminController extends Controller
     public function get_supplier_data_barang(Request $request)
     {
         try {
-            $supplier_id = $request-> supplier_id;
+            $supplier_id = $request->supplier_id;
             // Ambil informasi barang berdasarkan ID
-            $data = DataBarang::where('supplier_id',$supplier_id)->get();
+            $data = DataBarang::where('supplier_id', $supplier_id)->get();
 
             if (!$data) {
                 return response()->json(['error' => 'Barang tidak ditemukan'], 404);
@@ -113,20 +113,20 @@ class PemesananAdminController extends Controller
         }
     }
 
-//     public function store_detail_pemesanan(Request $request)
-//     {
-//         $data = $request->all();
-//         $data['status'] = 'pending';
+    //     public function store_detail_pemesanan(Request $request)
+    //     {
+    //         $data = $request->all();
+    //         $data['status'] = 'pending';
 
-//         PemesananAdminDetail::create($data);
+    //         PemesananAdminDetail::create($data);
 
-//         return redirect()->back();
-//     }
+    //         return redirect()->back();
+    //     }
 
-//     public function destroy_detail_pemesanan($id)
-//     {
-//         $data = PemesananAdminDetail::findOrFail($id);
-//         $data->delete();
-//         return redirect()->back();
-//     }
+    //     public function destroy_detail_pemesanan($id)
+    //     {
+    //         $data = PemesananAdminDetail::findOrFail($id);
+    //         $data->delete();
+    //         return redirect()->back();
+    //     }
 }

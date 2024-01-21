@@ -3,7 +3,7 @@
 @endphp
 
 {{-- delete pemesanan barang --}}
-@foreach ($pemesanan_admin as $data)
+@foreach ($pemesanan_konsumen as $data)
     <div class="modal fade" id="delete-pemesanan-barang-{{ $data->id }}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -33,7 +33,7 @@
 {{-- end delete pemesanan barang --}}
 
 {{-- bayar barang  --}}
-@foreach ($pemesanan_admin as $data)
+@foreach ($pemesanan_konsumen as $data)
     <div class="modal fade" id="bayar-pemesanan-barang-{{ $data->id }}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -51,7 +51,7 @@
                                             <h1 class="text-uppercase">Invoice</h1>
                                             <div class="billed"><span
                                                     class="fw-bold text-uppercase text-dark">Tagihan:</span><span
-                                                    class="ml-1"> Admin</span></div>
+                                                    class="ml-1"> Konsumen</span></div>
                                             <div class="billed"><span
                                                     class="fw-bold text-uppercase text-dark">Tanggal:</span><span
                                                     class="ml-1">
@@ -60,8 +60,6 @@
                                                     Bayar:</span><span class="ml-1" id="kode_pembayaran"></span></div>
                                         </div>
                                         <div class="col-md-6 text-right mt-3">
-                                            <h4 class="text-danger mb-0 text-uppercase">Supplier</h4>
-                                            <span class="fw-bold text-dark">{{ $data->supplier->nama }}</span>
                                             <div class="mt-3">
                                                 <label class="form-label">Metode pembayaran</label>
                                                 <select class="form-select form-select mb-3" id="metode_pembayaran"
@@ -109,21 +107,22 @@
                                                     </tr> --}}
 
                                                     <tr>
-                                                        <td>{{ $data->data_barang->nama_barang }}</td>
+                                                        <td>{{ $data->nama_barang }}</td>
                                                         <td>{{ $data->jumlah }}</td>
-                                                        <td>{{ $data->data_barang->harga_barang }}</td>
+                                                        <td>{{ $data->harga_barang }}</td>
                                                         <td>{{ $data->total }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
-                                    <form action="{{ route('pembayaran.store') }}" method="POST">
+                                    <form action="{{ route('pembayaran-konsumen.store') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="tanggal"
                                             value="{{ Carbon::now()->format('Y-m-d') }}">
                                         <input type="hidden" name="kode_bayar" id="kode_bayar">
-                                        <input type="hidden" name="pemesanan_admin_id" id="pemesanan_admin_id">
+                                        <input type="hidden" name="pemesanan_konsumen_id" id="pemesanan_konsumen_id">
+
                                         <input type="hidden" name="metode_pembayaran" id="metode_bayar">
 
                                         <div class="text-right mb-3">

@@ -29,13 +29,8 @@ class PemesananAdminController extends Controller
         return view('pages.order-admin.index', compact('pemesanan_admin'));
     }
 
-    public function get_pemesanan_admin()
-    {
-        $pemesanan_admin = PemesananAdmin::get();
-        $jumlah_pemesanan_admin = PemesananAdmin::count();
 
-        return Response::json(['jpa' => $jumlah_pemesanan_admin, 'pa' => $pemesanan_admin], 200);
-    }
+    
 
     public function store(Request $request)
     {

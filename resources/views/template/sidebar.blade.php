@@ -83,6 +83,7 @@
             @endif
             {{-- end roles admin --}}
 
+
             {{-- roles supplier --}}
             @if (Auth::user()->roles === 'supplier')
                 <a href="{{ route('dashboard.supplier') }}"
@@ -106,8 +107,9 @@
                     </div>
                 </div>
 
-                <a href="{{route('admin.pembayaran.index')}}"
-                class="nav-item nav-link {{ request()->is('supplier/pembayaran*') ? 'active' : '' }}"><i class="fas fa-dollar-sign me-2"></i>Pembayaran</a>
+                <a href="{{ route('admin.pembayaran.index') }}"
+                    class="nav-item nav-link {{ request()->is('supplier/pembayaran*') ? 'active' : '' }}"><i
+                        class="fas fa-dollar-sign me-2"></i>Pembayaran</a>
             @endif
             {{-- end roles supplier --}}
 
@@ -116,6 +118,23 @@
                 <a href="{{ route('dashboard.supplier') }}"
                     class="nav-item nav-link {{ request()->is('supplier/dashboard') ? 'active' : '' }}"><i
                         class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+
+                <div class="nav-item dropdown">
+                    <a href="#"
+                        class="nav-link {{ request()->is('konsumen/data-transaksi*') ? 'active' : '' }} dropdown-toggle show"
+                        data-bs-toggle="dropdown" aria-expanded="true"><i class="fas fa-dollar-sign me-2"></i>Data
+                        transaksi</a>
+                    <div class="dropdown-menu bg-transparent border-0 show" data-bs-popper="none">
+                        <a href="{{ route('pemesanan-barang-konsumen.index') }}"
+                            class="dropdown-item {{ request()->is('konsumen/data-transaksi/pemesanan-barang-konsumen*') ? 'active' : '' }}">Pemesanan
+                            ke admin</a>
+                        <a href="{{ route('pembayaran.index') }}"
+                            class="dropdown-item {{ request()->is('konsumen/data-transaksi/pembayaran*') ? 'active' : '' }}">Pembayaran
+                            ke admin</a>
+                        <a href="#" class="dropdown-item">Transaksi barang masuk</a>
+                        <a href="#" class="dropdown-item">Transaksi barang keluar</a>
+                    </div>
+                </div>
             @endif
             {{-- end roles konsumen --}}
         </div>

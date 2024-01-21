@@ -16,18 +16,25 @@ class DataBarang extends Model
      */
     public function jenis_barang()
     {
-        return $this->hasOne(JenisBarang::class,'id','jenis_barang_id');
+        return $this->hasOne(JenisBarang::class, 'id', 'jenis_barang_id');
     }
 
     public function merek_barang()
     {
-        return $this->hasOne(MerekBarang::class,'id','merek_barang_id');
+        return $this->hasOne(MerekBarang::class, 'id', 'merek_barang_id');
     }
 
     public function supplier()
     {
         return $this->belongsTo(Supplier::class);
     }
+
+    public function barangMasuk()
+    {
+        return $this->hasMany(BarangMasuk::class, 'data_barang_id');
+    }
+
+
 
     // public function datail_pemesanan_barang()
     // {
@@ -36,6 +43,6 @@ class DataBarang extends Model
 
     public function pemesanan_admin()
     {
-    return $this->belongsTo(PemesananAdmin::class);
+        return $this->belongsTo(PemesananAdmin::class);
     }
 }

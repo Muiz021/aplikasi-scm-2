@@ -13,12 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('suppliers', function (Blueprint $table) {
+        Schema::create('pembayaran_konsumens', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_supplier');
-            $table->string('nama');
-            $table->string('nomor_ponsel')->nullable();
-            $table->longText('alamat')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('suppliers');
+        Schema::dropIfExists('pembayaran_konsumens');
     }
 };

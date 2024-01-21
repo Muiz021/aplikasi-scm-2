@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('pemesanan_admin', function (Blueprint $table) {
-            $table->enum('status', ['proses', 'gagal'])->nullable()->after('total');
+            $table->enum('status', ['selesai', 'proses', 'gagal'])->nullable()->after('total');
         });
     }
 

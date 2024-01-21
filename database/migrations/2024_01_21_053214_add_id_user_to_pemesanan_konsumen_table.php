@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('pemesanan_admin', function (Blueprint $table) {
-            $table->unsignedBigInteger('supplier_id')->after('id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+        Schema::table('pemesanan_konsumen', function (Blueprint $table) {
+            $table->string('id_user')->nullable()->default(false)->after('barang_masuk_id');
         });
     }
 
@@ -26,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('pemesanan_admin', function (Blueprint $table) {
-            $table->dropForeign('pemesanan_admin_supplier_id_foreign');
+        Schema::table('pemesanan_konsumen', function (Blueprint $table) {
+            $table->dropColumn('kode_pemesanan');
         });
     }
 };

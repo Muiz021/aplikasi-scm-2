@@ -11,4 +11,19 @@ class BarangMasuk extends Model
 
     protected $guarded = ['id'];
     protected $table = 'barang_masuk';
+
+
+    public function pemesanan_admin()
+    {
+        return $this->belongsTo(PemesananKonsumen::class);
+    }
+    public function dataBarang()
+    {
+        return $this->belongsTo(DataBarang::class, 'data_barang_id');
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'supplier_id');
+    }
 }

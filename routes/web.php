@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\PemesananKonsumen;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KonsumenController;
@@ -11,6 +12,8 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\JenisBarangController;
 use App\Http\Controllers\MerekBarangController;
 use App\Http\Controllers\PemesananAdminController;
+use App\Http\Controllers\PemesananKonsumenController;
+use App\Http\Controllers\PembayaranKonsumenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,7 +61,7 @@ Route::prefix('admin')->middleware(['auth', 'OnlyAdmin'])->group(function () {
     Route::prefix('data-transaksi')->group(function () {
         // pemesanan barang ke supplier
         Route::resource('pemesanan-barang', PemesananAdminController::class);
-        Route::get('get_supplier_data_barang',[PemesananAdminController::class,'get_supplier_data_barang'])->name('get_supplier_data_barang');
+        Route::get('get_supplier_data_barang', [PemesananAdminController::class, 'get_supplier_data_barang'])->name('get_supplier_data_barang');
         Route::get('get_pemesanan_admin', [PemesananAdminController::class, 'get_pemesanan_admin'])->name('get_pemesanan_admin');
 
         // detail pemesanan barang ke supplier
@@ -69,12 +72,12 @@ Route::prefix('admin')->middleware(['auth', 'OnlyAdmin'])->group(function () {
         // pembayaran
         Route::resource('pembayaran', PembayaranController::class);
         Route::get('get_kode_pembayaran', [PembayaranController::class, 'get_kode_pembayaran'])->name('get_kode_pembayaran');
-        Route::put('upload_struk_pembayaran/{id}',[PembayaranController::class,'upload_struk_pembayaran'])->name('upload_struk_pembayaran');
+        Route::put('upload_struk_pembayaran/{id}', [PembayaranController::class, 'upload_struk_pembayaran'])->name('upload_struk_pembayaran');
     });
 
     Route::prefix('master')->group(function () {
         // jenis barang
-        Route::resource('/jenis_barang', JenisBarangController::class)->except('create','store','update','destroy', 'edit', 'show')->names(
+        Route::resource('/jenis_barang', JenisBarangController::class)->except('create', 'store', 'update', 'destroy', 'edit', 'show')->names(
             [
                 'index' => 'admin.jenis_barang.index',
                 'show' => 'admin.jenis_barang.show',
@@ -82,7 +85,7 @@ Route::prefix('admin')->middleware(['auth', 'OnlyAdmin'])->group(function () {
         );
 
         // merek barang
-        Route::resource('/merek_barang', MerekBarangController::class)->except('create','store','update','destroy', 'edit', 'show')->names(
+        Route::resource('/merek_barang', MerekBarangController::class)->except('create', 'store', 'update', 'destroy', 'edit', 'show')->names(
             [
                 'index' => 'admin.merek_barang.index',
                 'show' => 'admin.merek_barang.show',
@@ -90,9 +93,9 @@ Route::prefix('admin')->middleware(['auth', 'OnlyAdmin'])->group(function () {
         );
 
         // data barang
-        Route::resource('data_barang', DataBarangController::class)->except('create','store','update','destroy', 'edit', 'show')->names(
+        Route::resource('data_barang', DataBarangController::class)->except('create', 'store', 'update', 'destroy', 'edit', 'show')->names(
             [
-            'index' => 'admin.data_barang.index',
+                'index' => 'admin.data_barang.index',
                 'show' => 'admin.data_barang.show',
             ]
         );
@@ -119,8 +122,8 @@ Route::prefix('supplier')->middleware(['auth', 'OnlySupplier'])->group(function 
     Route::get('get-count', [DataBarangController::class, 'getCount']);
 
     // pembayaran
-    Route::get('pembayaran',[PembayaranController::class,'index'])->name('admin.pembayaran.index');
-    Route::put('update_status_pembayaran/{id}',[PembayaranController::class,'update_status_pembayaran'])->name('update_status_pembayaran');
+    Route::get('pembayaran', [PembayaranController::class, 'index'])->name('admin.pembayaran.index');
+    Route::put('update_status_pembayaran/{id}', [PembayaranController::class, 'update_status_pembayaran'])->name('update_status_pembayaran');
 });
 
 /**
@@ -130,4 +133,19 @@ Route::prefix('supplier')->middleware(['auth', 'OnlySupplier'])->group(function 
 Route::prefix('konsumen')->middleware(['auth', 'OnlyKosumen'])->group(function () {
     // dashboard
     Route::get('dashboard', [DashboardController::class, 'konsumen_dashboard'])->name('dashboard.konsumen');
+
+    Route::prefix('data-transaksi')->group(function () {
+        Route::resource('pemesanan-barang-konsumen', PemesananKonsumenController::class);
+
+        // Perbaikan nama route dan controller method
+        Route::get('get_barang_masuk_by_supplier', [PemesananKonsumenController::class, 'get_barang_masuk_by_supplier'])->name('get_barang_masuk_by_supplier');
+
+        Route::get('get_pemesanan_konsumen', [PemesananKonsumenController::class, 'get_pemesanan_konsumen'])->name('get_pemesanan_konsumen');
+
+        Route::get('get_barang_masuk', [PemesananKonsumenController::class, 'getBarangMasuk'])->name('get_barang_masuk');
+        Route::get('data-barang/{id}', [PemesananKonsumenController::class, 'get_data_barang_per_id'])->name('get_barang_masuk_per_id');
+
+        Route::resource('pembayaran-konsumen', PembayaranKonsumenController::class);
+        Route::get('get_kode_pembayaran', [PembayaranKonsumenController::class, 'get_kode_pembayaran'])->name('get_kode_pembayaran');
+    });
 });

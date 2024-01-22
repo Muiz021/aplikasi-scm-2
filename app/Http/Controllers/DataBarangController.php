@@ -35,7 +35,6 @@ class DataBarangController extends Controller
         $jenis_barang = JenisBarang::get();
         $merek_barang = MerekBarang::get();
 
-        // dd($data_barang);
         return view('pages.data-barang.index', compact('data_barang', 'total_barang', 'jenis_barang', 'merek_barang'));
     }
 

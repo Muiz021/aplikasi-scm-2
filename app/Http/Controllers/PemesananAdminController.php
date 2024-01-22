@@ -3,20 +3,19 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use GuzzleHttp\Client;
 use App\Models\Supplier;
 use App\Models\DataBarang;
 use Illuminate\Http\Request;
 use App\Models\PemesananAdmin;
-use App\Models\PemesananAdminDetail;
 use Illuminate\Support\Facades\Response;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PemesananAdminController extends Controller
 {
-
-    /**
-     * pemesanan admin
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.
@@ -29,20 +28,24 @@ class PemesananAdminController extends Controller
         return view('pages.order-admin.index', compact('pemesanan_admin'));
     }
 
-    public function get_pemesanan_admin()
+    public function create()
     {
-        $pemesanan_admin = PemesananAdmin::get();
-        $jumlah_pemesanan_admin = PemesananAdmin::count();
-
-        return Response::json(['jpa' => $jumlah_pemesanan_admin, 'pa' => $pemesanan_admin], 200);
+        $supplier = Supplier::get();
+        return view('pages.order-admin.create', compact('supplier'));
     }
 
     public function store(Request $request)
     {
-        // mengambil semua data
-        $data = $request->all();
-        $today = Carbon::now()->format('Y-m-d');
-        $total = $data['harga'] * $data['jumlah'];
+         // mengambil semua data
+         $data = $request->all();
+         $today = Carbon::now()->format('Y-m-d');
+         $total = $data['harga'] * $data['jumlah'];
+
+        // validasi stok_barang apabila kosong
+        if($data['stok_barang'] == 0){
+        Alert::info("Peringatan", "stok barang tidak ada");
+        return redirect()->back();
+        }
 
         // membuat pemesanan admin
         PemesananAdmin::create([
@@ -54,6 +57,7 @@ class PemesananAdminController extends Controller
             'total' => $total
         ]);
 
+        Alert::success("Sukses", "berhasil menambah pemesanan admin");
         return redirect()->route('pemesanan-barang.index');
     }
 
@@ -69,17 +73,8 @@ class PemesananAdminController extends Controller
         $pemesanan_admin = PemesananAdmin::find($id);
         $pemesanan_admin->delete();
 
+        Alert::success("Sukses", "berhasil menghapus pemesanan admin");
         return redirect()->back();
-    }
-
-    /**
-     * detail pemesanan admin
-     */
-    public function create()
-    {
-        $supplier = Supplier::get();
-        $detail_pemesanan_barang = PemesananAdminDetail::with('data_barang')->where('status', 'pending')->get();
-        return view('pages.order-admin.create', compact('supplier', 'detail_pemesanan_barang'));
     }
 
     public function get_supplier_data_barang(Request $request)
@@ -112,21 +107,4 @@ class PemesananAdminController extends Controller
             return response()->json(['error' => 'Terjadi kesalahan server'], 500);
         }
     }
-
-    //     public function store_detail_pemesanan(Request $request)
-    //     {
-    //         $data = $request->all();
-    //         $data['status'] = 'pending';
-
-    //         PemesananAdminDetail::create($data);
-
-    //         return redirect()->back();
-    //     }
-
-    //     public function destroy_detail_pemesanan($id)
-    //     {
-    //         $data = PemesananAdminDetail::findOrFail($id);
-    //         $data->delete();
-    //         return redirect()->back();
-    //     }
 }

@@ -37,7 +37,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Stok Barang</label>
-                            <input type="text" class="form-control" id="stok_barang" readonly>
+                            <input type="number" class="form-control" name="stok_barang" id="stok_barang" readonly>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Harga</label>
@@ -45,7 +45,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Jumlah beli</label>
-                            <input type="text" class="form-control" name="jumlah">
+                            <input type="number" class="form-control" name="jumlah">
                         </div>
 
                         <button type="submit" class="btn btn-primary" id="simpan_pemesanan_admin">Simpan</button>

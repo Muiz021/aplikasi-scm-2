@@ -6,7 +6,13 @@
             @else
             {{ route('dashboard.konsumen') }} @endif"
             class="navbar-brand mx-4 mb-3">
+            @if (Auth::user()->roles == 'admin')
             <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>
+            @elseif (Auth::user()->roles == 'supplier')
+            <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHSUP</h3>
+            @else
+            <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHKOS</h3>
+            @endif
         </a>
         <div class="d-flex align-items-center ms-4 mb-4">
             <div class="position-relative">

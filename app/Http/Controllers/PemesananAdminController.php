@@ -40,7 +40,7 @@ class PemesananAdminController extends Controller
          $data = $request->all();
          $today = Carbon::now()->format('Y-m-d');
          $total = $data['harga'] * $data['jumlah'];
-
+         
         // validasi stok_barang apabila kosong
         if($data['stok_barang'] == 0){
         Alert::info("Peringatan", "stok barang tidak ada");
@@ -106,5 +106,13 @@ class PemesananAdminController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Terjadi kesalahan server'], 500);
         }
+    }
+
+    public function get_pemesanan_admin()
+    {
+        $pemesanan_admin = PemesananAdmin::get();
+        $jumlah_pemesanan_admin = PemesananAdmin::count();
+
+        return Response::json(['jpa' => $jumlah_pemesanan_admin, 'pa' => $pemesanan_admin], 200);
     }
 }

@@ -2,6 +2,54 @@
     use Carbon\Carbon;
 @endphp
 
+{{-- show pemesanan barang --}}
+@foreach ($pemesanan_admin as $data)
+    <div class="modal fade" id="show-pemesanan-barang-{{ $data->id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Pemesanan Barang</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Kode pemesanan</label>
+                        <input class="form-control" type="text" name="" value="{{$data->kode_pemesanan}}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Kode Supplier</label>
+                        <input class="form-control" type="text" name="" value="{{$data->supplier->kode_supplier}}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Nama Supplier</label>
+                        <input class="form-control" type="text" name="" value="{{$data->supplier->nama}}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Nama Barang</label>
+                        <input class="form-control" type="text" name="" value="{{$data->data_barang->nama_barang}}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Stok Barang</label>
+                        <input class="form-control" type="text" name="" value="{{$data->data_barang->stok_barang}}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Harga Barang</label>
+                        <input class="form-control" type="text" name="" value="{{$data->data_barang->harga_barang}}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Jumlah beli</label>
+                        <input class="form-control" type="text" name="" value="{{$data->jumlah}}" readonly>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endforeach
+{{-- end show pemesanan barang --}}
+
 {{-- delete pemesanan barang --}}
 @foreach ($pemesanan_admin as $data)
     <div class="modal fade" id="delete-pemesanan-barang-{{ $data->id }}" tabindex="-1" aria-hidden="true">

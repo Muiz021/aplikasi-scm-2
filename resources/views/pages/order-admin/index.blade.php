@@ -37,7 +37,7 @@
                                         <td>
                                             <div class="d-flex">
                                                 <button class="btn btn-sm btn-success" data-bs-toggle="modal"
-                                                    data-bs-target="#edit-merek-barang-{{ $item->id }}">Detail</button>
+                                                    data-bs-target="#show-pemesanan-barang-{{ $item->id }}">Detail</button>
                                                 <button class="btn btn-sm btn-danger mx-2" data-bs-toggle="modal"
                                                     data-bs-target="#delete-pemesanan-barang-{{ $item->id }}">Hapus</button>
                                                 <button class="btn btn-sm btn-info text-white bayar-id" data-bs-toggle="modal"
@@ -92,7 +92,6 @@
 
         {{-- store pembayaran --}}
         <script>
-
               function ambilNilai(nilai) {
                 $('#pemesanan_admin_id').val(nilai);
                 }

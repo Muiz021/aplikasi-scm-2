@@ -24,22 +24,15 @@ class DataBarang extends Model
         return $this->hasOne(MerekBarang::class, 'id', 'merek_barang_id');
     }
 
+    public function barang_masuk()
+    {
+        return $this->hasOne(BarangMasuk::class, 'id','data_barang_id');
+    }
+
     public function supplier()
     {
         return $this->belongsTo(Supplier::class);
     }
-
-    public function barangMasuk()
-    {
-        return $this->hasMany(BarangMasuk::class, 'data_barang_id');
-    }
-
-
-
-    // public function datail_pemesanan_barang()
-    // {
-    // return $this->belongsTo(PemesananAdminDetail::class);
-    // }
 
     public function pemesanan_admin()
     {

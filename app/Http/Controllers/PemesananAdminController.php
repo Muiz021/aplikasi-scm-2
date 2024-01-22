@@ -30,7 +30,7 @@ class PemesananAdminController extends Controller
     }
 
 
-    
+
 
     public function store(Request $request)
     {
@@ -40,7 +40,7 @@ class PemesananAdminController extends Controller
         $total = $data['harga'] * $data['jumlah'];
 
         // membuat pemesanan admin
-       $pemesanan_admin = PemesananAdmin::create([
+       PemesananAdmin::create([
             'supplier_id' => $data['supplier_id'],
             'data_barang_id' => $data['data_barang_id'],
             'waktu_pemesanan' => $today,
@@ -107,21 +107,4 @@ class PemesananAdminController extends Controller
             return response()->json(['error' => 'Terjadi kesalahan server'], 500);
         }
     }
-
-//     public function store_detail_pemesanan(Request $request)
-//     {
-//         $data = $request->all();
-//         $data['status'] = 'pending';
-
-//         PemesananAdminDetail::create($data);
-
-//         return redirect()->back();
-//     }
-
-//     public function destroy_detail_pemesanan($id)
-//     {
-//         $data = PemesananAdminDetail::findOrFail($id);
-//         $data->delete();
-//         return redirect()->back();
-//     }
 }

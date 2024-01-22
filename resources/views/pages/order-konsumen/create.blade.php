@@ -22,6 +22,9 @@
                             <label class="form-label">Kode barang</label>
                             <select class="form-select form-select mb-3" name="barang_masuk_id" id="barang_masuk_id">
                                 <option value="">Silahkan pilih</option>
+                                @foreach ($barangMasuk as $item)
+                                <option value="{{$item->id}}">{{$item->kode_barang}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
@@ -51,33 +54,6 @@
 @endsection
 
 @push('script')
-    {{-- Ambil data barang masuk saat halaman dimuat --}}
-    <script>
-        $(document).ready(function() {
-            $.ajax({
-                url: '/konsumen/data-transaksi/get_barang_masuk',
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    // Bersihkan opsi sebelum menambahkan yang baru
-                    $('#barang_masuk_id').empty();
-                    $('#barang_masuk_id').append('<option value="">Silahkan pilih</option>');
-                    // Tambahkan opsi berdasarkan data yang diterima dari server
-                    $.each(data, function(index, barangMasuk) {
-                        $('#barang_masuk_id').append('<option value="' + barangMasuk.id +
-                            '">' +
-                            barangMasuk.kode_barang + '</option>'
-                        );
-                    });
-                },
-
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        });
-    </script>
-
     {{-- Nilai kode barang --}}
     <script>
         $(document).ready(function() {
@@ -87,17 +63,14 @@
 
                 // Ambil nilai kode barang yang dipilih
                 var selectedBarangId = $(this).val();
-                console.log('Kode Barang yang Dipilih:', selectedBarangId);
 
                 $.ajax({
-                    url: '/konsumen/data-transaksi/data-barang/' + selectedBarangId,
+                    url: '/konsumen/data-transaksi/barang-masuk/' + selectedBarangId,
                     type: 'GET',
                     success: function(data) {
-                        // Set nilai stok tersedia, harga, dan jumlah beli di dalam input
-
-                        $('#nama_barang').val(data.nama_barang);
-                        $('#stok_barang').val(data.stok_barang);
-                        $('#harga_barang').val(data.harga_barang);
+                        $('#nama_barang').val(data.data_barang.nama_barang);
+                        $('#stok_barang').val(data.data.jumlah);
+                        $('#harga_barang').val(data.data_barang.harga_barang);
                     },
                     error: function(error) {
                         console.error('Error:', error);
@@ -106,6 +79,7 @@
             });
         });
     </script>
+
 
     {{-- kode pemesanan --}}
     <script>

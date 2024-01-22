@@ -33,7 +33,7 @@ class PemesananKonsumenController extends Controller
      */
     public function create()
     {
-        $barangMasuk = BarangMasuk::get();
+        $barangMasuk = BarangMasuk::where('status','sampai')->get();
         return view('pages.order-konsumen.create', compact('barangMasuk'));
     }
 
@@ -52,7 +52,7 @@ class PemesananKonsumenController extends Controller
 
         $user_id = Auth::user()->id;
         // membuat pemesanan admin
-        $pemesanan_admin = PemesananKonsumen::create([
+        PemesananKonsumen::create([
             'barang_masuk_id' => $data['barang_masuk_id'],
             'harga_barang' => $data['harga'],
             'nama_barang' => $data['nama_barang'],
@@ -110,27 +110,17 @@ class PemesananKonsumenController extends Controller
         //
     }
 
-    public function get_data_barang_per_id($id)
+    public function get_barang_masuk_per_id($id)
     {
         try {
             // Ambil informasi barang berdasarkan ID
-            $data = DataBarang::findOrFail($id);
+            $data = BarangMasuk::findOrFail($id);
+            $data_barang = DataBarang::where('id',$data->data_barang_id)->first();
 
             if (!$data) {
                 return response()->json(['error' => 'Barang tidak ditemukan'], 404);
             }
-            return Response::json($data, 200);
-        } catch (\Throwable $th) {
-            return response()->json(['error' => 'Terjadi kesalahan server'], 500);
-        }
-    }
-
-    public function getBarangMasuk()
-    {
-        try {
-            // Ambil data barang masuk yang tersedia
-            $barangMasuk = BarangMasuk::all();
-            return response()->json($barangMasuk, 200);
+            return Response::json(['data'=> $data,'data_barang'=> $data_barang], 200);
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Terjadi kesalahan server'], 500);
         }

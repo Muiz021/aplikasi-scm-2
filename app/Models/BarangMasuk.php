@@ -17,7 +17,7 @@ class BarangMasuk extends Model
     {
         return $this->belongsTo(PemesananKonsumen::class);
     }
-    public function dataBarang()
+    public function data_barang()
     {
         return $this->belongsTo(DataBarang::class, 'data_barang_id');
     }

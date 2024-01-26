@@ -10,7 +10,7 @@ class PembayaranKonsumen extends Model
     use HasFactory;
     protected $guarded = ['id'];
 
-    protected $table = ['pembayaran_konsumen'];
+    protected $table = 'pembayaran_konsumen';
 
     public function pemesanan_konsumen()
     {

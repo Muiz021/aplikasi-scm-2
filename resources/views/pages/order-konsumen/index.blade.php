@@ -1,6 +1,6 @@
 @extends('base')
 
-@section('roles', 'Admin')
+@section('roles', 'Konsumen')
 @section('title', 'pemesanan barang')
 
 @section('content')
@@ -76,16 +76,17 @@
                     function countArrayElements(array) {
                         return array.length;
                     }
+
                     var jumlah_data = countArrayElements(data.pembayaran);
 
                     if (data.jp > 0) {
-                        if (jumlah_data === data.jp) {
+                        if (jumlah_data == data.jp) {
                             $('#kode_pembayaran').text('KB' + (data.jp + 2).toString().padStart(3, '0'));
                         } else {
                             $('#kode_pembayaran').text('KB' + (data.jp + 1).toString().padStart(3, '0'));
                         }
                     } else {
-                        $('#kode_pembayaran').text('KB' + '001');
+                        $('#kode_pembayaran').text('KB001');
                     }
                 });
             });
@@ -98,11 +99,10 @@
                 $('#pemesanan_konsumen_id').val(nilai);
             }
 
-
             $(document).ready(function() {
 
                 // Ambil count kode_barang saat halaman dimuat
-                $.get('/kosumen/data-transaksi/get_kode_pembayaran', function(data) {
+                $.get('/konsumen/data-transaksi/get_kode_pembayaran', function(data) {
 
                     // Fungsi untuk menghitung jumlah elemen dalam array
                     function countArrayElements(array) {

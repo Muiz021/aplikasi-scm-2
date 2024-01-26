@@ -62,7 +62,7 @@ Route::prefix('admin')->middleware(['auth', 'OnlyAdmin'])->group(function () {
         // pemesanan barang ke supplier
         Route::resource('pemesanan-barang', PemesananAdminController::class);
         Route::get('get_supplier_data_barang', [PemesananAdminController::class, 'get_supplier_data_barang'])->name('get_supplier_data_barang');
-        // Route::get('get_pemesanan_admin', [PemesananAdminController::class, 'get_pemesanan_admin'])->name('get_pemesanan_admin');
+        Route::get('get_pemesanan_admin', [PemesananAdminController::class, 'get_pemesanan_admin'])->name('get_pemesanan_admin');
 
         // detail pemesanan barang ke supplier
         Route::get('data-barang/{id}', [PemesananAdminController::class, 'get_data_barang_per_id'])->name('pemesanan_barang.get_per_id');
@@ -146,6 +146,6 @@ Route::prefix('konsumen')->middleware(['auth', 'OnlyKosumen'])->group(function (
         Route::get('barang-masuk/{id}', [PemesananKonsumenController::class, 'get_barang_masuk_per_id']);
 
         Route::resource('pembayaran-konsumen', PembayaranKonsumenController::class);
-        Route::get('get_kode_pembayaran', [PembayaranKonsumenController::class, 'get_kode_pembayaran'])->name('get_kode_pembayaran');
+    Route::get('get_kode_pembayaran', [PembayaranKonsumenController::class, 'get_kode_pembayaran'])->name('konsumen.get_kode_pembayaran');
     });
 });

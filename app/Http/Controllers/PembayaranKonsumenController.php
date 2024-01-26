@@ -8,7 +8,6 @@ use GuzzleHttp\Client;
 use RealRashid\SweetAlert\Facades\Alert;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 
 class PembayaranKonsumenController extends Controller
 {
@@ -18,7 +17,7 @@ class PembayaranKonsumenController extends Controller
         $pembayaran = PembayaranKonsumen::get();
         $jumlah_pembayaran = PembayaranKonsumen::count();
 
-        return Response::json(['pembayaran' => $pembayaran, 'jp' => $jumlah_pembayaran], 200);
+        return response()->json(['pembayaran' => $pembayaran, 'jp' => $jumlah_pembayaran], 200);
     }
 
     public function store(Request $request)
@@ -26,7 +25,6 @@ class PembayaranKonsumenController extends Controller
         //validasi error
 
         $data = $request->all();
-        dd($data);
         $request->validate(
             [
                 'metode_pembayaran' => 'required',

@@ -73,7 +73,7 @@ class PemesananAdminController extends Controller
     public function create()
     {
         $supplier = Supplier::get();
-        $detail_pemesanan_barang = PemesananAdminDetail::with('data_barang')->where('status', 'pending')->get();
+        $detail_pemesanan_barang = PemesananAdminDetail::with('data_barang')->get();
         return view('pages.order-admin.create', compact('supplier', 'detail_pemesanan_barang'));
     }
 

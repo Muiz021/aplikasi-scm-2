@@ -8,7 +8,6 @@ use App\Models\Supplier;
 use App\Models\DataBarang;
 use Illuminate\Http\Request;
 use App\Models\PemesananAdmin;
-use App\Models\PemesananAdminDetail;
 use Illuminate\Support\Facades\Response;
 
 class PemesananAdminController extends Controller
@@ -29,7 +28,13 @@ class PemesananAdminController extends Controller
         return view('pages.order-admin.index', compact('pemesanan_admin'));
     }
 
+    public function get_pemesanan_admin()
+    {
+        $pemesanan_admin = PemesananAdmin::get();
+        $jumlah_pemesanan_admin = PemesananAdmin::count();
 
+        return Response::json(['jpa' => $jumlah_pemesanan_admin, 'pa' => $pemesanan_admin], 200);
+    }
 
 
     public function store(Request $request)

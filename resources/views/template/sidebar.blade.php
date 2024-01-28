@@ -115,8 +115,8 @@
 
             {{-- roles konsumen --}}
             @if (Auth::user()->roles == 'konsumen')
-                <a href="{{ route('dashboard.supplier') }}"
-                    class="nav-item nav-link {{ request()->is('supplier/dashboard') ? 'active' : '' }}"><i
+                <a href="{{ route('dashboard.konsumen') }}"
+                    class="nav-item nav-link {{ request()->is('konsumen/dashboard') ? 'active' : '' }}"><i
                         class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
 
                 <div class="nav-item dropdown">
@@ -128,11 +128,10 @@
                         <a href="{{ route('pemesanan-barang-konsumen.index') }}"
                             class="dropdown-item {{ request()->is('konsumen/data-transaksi/pemesanan-barang-konsumen*') ? 'active' : '' }}">Pemesanan
                             ke admin</a>
-                        <a href="{{ route('pembayaran.index') }}"
+                        <a href="{{ route('pembayaran-konsumen.index') }}"
                             class="dropdown-item {{ request()->is('konsumen/data-transaksi/pembayaran*') ? 'active' : '' }}">Pembayaran
                             ke admin</a>
-                        <a href="#" class="dropdown-item">Transaksi barang masuk</a>
-                        <a href="#" class="dropdown-item">Transaksi barang keluar</a>
+
                     </div>
                 </div>
             @endif

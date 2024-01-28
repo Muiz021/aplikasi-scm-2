@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use App\Models\Supplier;
+use App\Models\PemesananAdminDetail;
 use App\Models\DataBarang;
 use Illuminate\Http\Request;
 use App\Models\PemesananAdmin;
@@ -45,7 +46,7 @@ class PemesananAdminController extends Controller
         $total = $data['harga'] * $data['jumlah'];
 
         // membuat pemesanan admin
-       PemesananAdmin::create([
+        PemesananAdmin::create([
             'supplier_id' => $data['supplier_id'],
             'data_barang_id' => $data['data_barang_id'],
             'waktu_pemesanan' => $today,
@@ -85,9 +86,9 @@ class PemesananAdminController extends Controller
     public function get_supplier_data_barang(Request $request)
     {
         try {
-            $supplier_id = $request-> supplier_id;
+            $supplier_id = $request->supplier_id;
             // Ambil informasi barang berdasarkan ID
-            $data = DataBarang::where('supplier_id',$supplier_id)->get();
+            $data = DataBarang::where('supplier_id', $supplier_id)->get();
 
             if (!$data) {
                 return response()->json(['error' => 'Barang tidak ditemukan'], 404);

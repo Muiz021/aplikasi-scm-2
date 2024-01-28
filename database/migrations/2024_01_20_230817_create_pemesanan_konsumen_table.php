@@ -21,6 +21,8 @@ return new class extends Migration
             $table->bigInteger('jumlah');
             $table->bigInteger('total');
             $table->enum('status', ['selesai', 'proses', 'gagal'])->nullable();
+            $table->unsignedBigInteger('konsumen_id')->nullable();
+            $table->foreign('konsumen_id')->references('id')->on('konsumens')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

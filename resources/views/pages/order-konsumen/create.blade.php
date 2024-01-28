@@ -7,14 +7,21 @@
     @include('sweetalert::alert')
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="col-sm-12">
                 <div class="bg-light rounded h-100 p-4">
                     <h6 class="mb-4">Tambah Pemesanan Barang</h6>
+
                     <div class="mb-3">
                         <label class="form-label">Kode pemesanan</label>
                         <input type="text" class="form-control" placeholder="Masukan nama merek barang" id="kode-pemesanan"
                             readonly>
                     </div>
+
                     <form action="{{ route('pemesanan-barang-konsumen.store') }}" method="POST">
                         @csrf
                         <input type="hidden" name="kode_pesan" id="kode-pesan">
@@ -23,7 +30,7 @@
                             <select class="form-select form-select mb-3" name="barang_masuk_id" id="barang_masuk_id">
                                 <option value="">Silahkan pilih</option>
                                 @foreach ($barangMasuk as $item)
-                                <option value="{{$item->id}}">{{$item->kode_barang}}</option>
+                                    <option value="{{ $item->id }}">{{ $item->kode_barang }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -40,12 +47,16 @@
                             <input type="text" class="form-control" name="harga" id="harga_barang" readonly>
                         </div>
                         <div class="mb-3">
+
+
                             <label class="form-label">Jumlah beli</label>
                             <input type="text" class="form-control" name="jumlah">
+                            <br>
+
                         </div>
 
                         <button type="submit" class="btn btn-primary" id="simpan_pemesanan_admin">Simpan</button>
-                        <a href="{{ route('pemesanan-barang.index') }}" class="btn btn-secondary">Tutup</a>
+                        <a href="{{ route('pemesanan-barang-konsumen.index') }}" class="btn btn-secondary">Tutup</a>
                     </form>
                 </div>
             </div>

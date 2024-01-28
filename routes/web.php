@@ -132,6 +132,8 @@ Route::prefix('supplier')->middleware(['auth', 'OnlySupplier'])->group(function 
 
 Route::prefix('konsumen')->middleware(['auth', 'OnlyKosumen'])->group(function () {
     // dashboard
+    Route::put('profil/{id}', [KonsumenController::class, 'update'])->name('profil-konsumen.update');
+
     Route::get('dashboard', [DashboardController::class, 'konsumen_dashboard'])->name('dashboard.konsumen');
 
     Route::prefix('data-transaksi')->group(function () {
@@ -146,6 +148,7 @@ Route::prefix('konsumen')->middleware(['auth', 'OnlyKosumen'])->group(function (
         Route::get('barang-masuk/{id}', [PemesananKonsumenController::class, 'get_barang_masuk_per_id']);
 
         Route::resource('pembayaran-konsumen', PembayaranKonsumenController::class);
-    Route::get('get_kode_pembayaran', [PembayaranKonsumenController::class, 'get_kode_pembayaran'])->name('konsumen.get_kode_pembayaran');
+        Route::get('get_kode_pembayaran', [PembayaranKonsumenController::class, 'get_kode_pembayaran'])->name('konsumen.get_kode_pembayaran');
+        Route::put('upload_struk_pembayaran/{id}', [PembayaranKonsumenController::class, 'upload_struk_pembayaran'])->name('konsumen.upload_struk_pembayaran');
     });
 });

@@ -33,7 +33,7 @@ class PemesananKonsumenController extends Controller
      */
     public function create()
     {
-        $barangMasuk = BarangMasuk::where('status','sampai')->get();
+        $barangMasuk = BarangMasuk::where('status', 'sampai')->get();
         return view('pages.order-konsumen.create', compact('barangMasuk'));
     }
 
@@ -45,18 +45,44 @@ class PemesananKonsumenController extends Controller
      */
     public function store(Request $request)
     {
-        // mengambil semua data
         $data = $request->all();
         $today = Carbon::now()->format('Y-m-d');
+        $user = Auth::user();
+        $konsumen = $user->konsumen;
+        $konsumen_id = $konsumen->id;
+
+        // Validation rules
+        $rules = [
+            'barang_masuk_id' => 'required',
+            'harga' => 'required|numeric',
+            'nama_barang' => 'required',
+            'jumlah' => 'required|numeric|min:1', // Make sure it's a positive number
+            'kode_pesan' => 'required',
+        ];
+
+        // Custom error messages
+        $messages = [
+            'jumlah.min' => 'The quantity must be at least 1.',
+        ];
+
+        // Validate the request
+        $request->validate($rules, $messages);
+
+        // Check if the quantity is greater than available stock
+        $stokBarang = BarangMasuk::find($data['barang_masuk_id'])->jumlah;
+        if ($data['jumlah'] > $stokBarang) {
+            return redirect()->back()->with('error', 'Error: Stok barang tidak cukup.')->withInput();
+        }
+
+        // Calculate total
         $total = $data['harga'] * $data['jumlah'];
 
-        $user_id = Auth::user()->id;
-        // membuat pemesanan admin
+        // Create the record
         PemesananKonsumen::create([
             'barang_masuk_id' => $data['barang_masuk_id'],
             'harga_barang' => $data['harga'],
             'nama_barang' => $data['nama_barang'],
-            'id_user' => $user_id,
+            'konsumen_id' => $konsumen_id,
             'waktu_pemesanan' => $today,
             'kode_pemesanan' => $data['kode_pesan'],
             'jumlah' => $data['jumlah'],
@@ -65,6 +91,7 @@ class PemesananKonsumenController extends Controller
 
         return redirect()->route('pemesanan-barang-konsumen.index');
     }
+
 
     /**
      * Display the specified resource.
@@ -107,7 +134,12 @@ class PemesananKonsumenController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $pemesanan_konsumen = PemesananKonsumen::find($id);
+
+
+        $pemesanan_konsumen->delete();
+
+        return redirect()->back();
     }
 
     public function get_barang_masuk_per_id($id)
@@ -115,12 +147,12 @@ class PemesananKonsumenController extends Controller
         try {
             // Ambil informasi barang berdasarkan ID
             $data = BarangMasuk::findOrFail($id);
-            $data_barang = DataBarang::where('id',$data->data_barang_id)->first();
+            $data_barang = DataBarang::where('id', $data->data_barang_id)->first();
 
             if (!$data) {
                 return response()->json(['error' => 'Barang tidak ditemukan'], 404);
             }
-            return Response::json(['data'=> $data,'data_barang'=> $data_barang], 200);
+            return Response::json(['data' => $data, 'data_barang' => $data_barang], 200);
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Terjadi kesalahan server'], 500);
         }

@@ -22,4 +22,10 @@ class PemesananKonsumen extends Model
     {
         return $this->hasOne(PembayaranKonsumen::class);
     }
+
+
+    public function konsumen()
+    {
+        return $this->belongsTo(Konsumen::class);
+    }
 }

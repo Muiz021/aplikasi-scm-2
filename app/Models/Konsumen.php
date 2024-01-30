@@ -13,8 +13,17 @@ class Konsumen extends Model
     /**
      * Relasi
      */
-    public function users()
+    public function user()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class);
+    }
+    public function pemesanan_konsumen()
+    {
+        return $this->hasMany(PemesananKonsumen::class);
+    }
+
+    public function barangKeluar()
+    {
+        return $this->hasMany(BarangKeluar::class, 'konsumen_id');
     }
 }

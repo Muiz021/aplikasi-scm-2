@@ -57,4 +57,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Konsumen::class);
     }
+
+    public function pemesananKonsumen()
+    {
+        return $this->hasMany(PemesananKonsumen::class, 'id_user');
+    }
 }

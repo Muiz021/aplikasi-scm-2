@@ -29,9 +29,9 @@
                                         <td>{{ $item->supplier->email }}</td>
                                         <td>
                                             @if ($item->status == true)
-                                           <span class="text-success fw-bold">Konfirmasi</span>
-                                           @else
-                                           <span class="text-warning fw-bold">Belum konfirmasi</span>
+                                                <span class="text-success fw-bold">Konfirmasi</span>
+                                            @else
+                                                <span class="text-warning fw-bold">Belum konfirmasi</span>
                                             @endif
                                         </td>
                                         <td>
@@ -42,13 +42,15 @@
                                                     data-bs-target="#edit-supplier-{{ $item->id }}">Edit</button>
                                                 <button class="btn btn-sm btn-danger me-2" data-bs-toggle="modal"
                                                     data-bs-target="#delete-supplier-{{ $item->id }}">Delete</button>
-                                                    @if ($item->status != true)
-                                                    <form action="{{route('konfirmasi_supplier',$item->id)}}" method="POST">
+                                                @if ($item->status != true)
+                                                    <form action="{{ route('konfirmasi_supplier', $item->id) }}"
+                                                        method="POST">
                                                         @csrf
                                                         @method('put')
-                                                        <button type="submit" class="btn btn-sm btn-secondary">Konfirmasi</button>
+                                                        <button type="submit"
+                                                            class="btn btn-sm btn-secondary">Konfirmasi</button>
                                                     </form>
-                                                    @endif
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>

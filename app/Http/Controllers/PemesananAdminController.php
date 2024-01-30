@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Supplier;
+use App\Models\PemesananAdminDetail;
 use App\Models\DataBarang;
 use Illuminate\Http\Request;
 use App\Models\PemesananAdmin;
@@ -33,6 +34,7 @@ class PemesananAdminController extends Controller
         $supplier = Supplier::get();
         return view('pages.order-admin.create', compact('supplier'));
     }
+
 
     public function store(Request $request)
     {
@@ -77,6 +79,16 @@ class PemesananAdminController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * detail pemesanan admin
+     */
+    public function create()
+    {
+        $supplier = Supplier::get();
+        $detail_pemesanan_barang = PemesananAdminDetail::with('data_barang')->get();
+        return view('pages.order-admin.create', compact('supplier', 'detail_pemesanan_barang'));
+    }
+
     public function get_supplier_data_barang(Request $request)
     {
         try {
@@ -106,13 +118,5 @@ class PemesananAdminController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Terjadi kesalahan server'], 500);
         }
-    }
-
-    public function get_pemesanan_admin()
-    {
-        $pemesanan_admin = PemesananAdmin::get();
-        $jumlah_pemesanan_admin = PemesananAdmin::count();
-
-        return Response::json(['jpa' => $jumlah_pemesanan_admin, 'pa' => $pemesanan_admin], 200);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\PemesananKonsumen;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangMasukController;
@@ -12,6 +13,8 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\JenisBarangController;
 use App\Http\Controllers\MerekBarangController;
 use App\Http\Controllers\PemesananAdminController;
+use App\Http\Controllers\PemesananKonsumenController;
+use App\Http\Controllers\PembayaranKonsumenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -132,5 +135,23 @@ Route::prefix('supplier')->middleware(['auth', 'OnlySupplier'])->group(function 
 
 Route::prefix('konsumen')->middleware(['auth', 'OnlyKosumen'])->group(function () {
     // dashboard
+    Route::put('profil/{id}', [KonsumenController::class, 'update'])->name('profil-konsumen.update');
+
     Route::get('dashboard', [DashboardController::class, 'konsumen_dashboard'])->name('dashboard.konsumen');
+
+    Route::prefix('data-transaksi')->group(function () {
+        Route::resource('pemesanan-barang-konsumen', PemesananKonsumenController::class);
+
+        // Perbaikan nama route dan controller method
+        Route::get('get_barang_masuk_by_supplier', [PemesananKonsumenController::class, 'get_barang_masuk_by_supplier'])->name('get_barang_masuk_by_supplier');
+
+        Route::get('get_pemesanan_konsumen', [PemesananKonsumenController::class, 'get_pemesanan_konsumen'])->name('get_pemesanan_konsumen');
+
+        Route::get('get_barang_masuk', [PemesananKonsumenController::class, 'getBarangMasuk'])->name('get_barang_masuk');
+        Route::get('barang-masuk/{id}', [PemesananKonsumenController::class, 'get_barang_masuk_per_id']);
+
+        Route::resource('pembayaran-konsumen', PembayaranKonsumenController::class);
+        Route::get('get_kode_pembayaran', [PembayaranKonsumenController::class, 'get_kode_pembayaran'])->name('konsumen.get_kode_pembayaran');
+        Route::put('upload_struk_pembayaran/{id}', [PembayaranKonsumenController::class, 'upload_struk_pembayaran'])->name('konsumen.upload_struk_pembayaran');
+    });
 });

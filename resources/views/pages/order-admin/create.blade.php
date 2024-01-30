@@ -49,14 +49,12 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary" id="simpan_pemesanan_admin">Simpan</button>
-                        <a href="{{route('pemesanan-barang.index')}}" class="btn btn-secondary">Tutup</a>
+                        <a href="{{ route('pemesanan-barang.index') }}" class="btn btn-secondary">Tutup</a>
 
                     </form>
                 </div>
             </div>
         </div>
-    </div>
-    {{-- @include('pages.order-admin.modal-detail-barang') --}}
     </div>
     @push('script')
         {{-- nilai supplier --}}
@@ -150,58 +148,5 @@
             });
         </script>
         {{-- end kode pemesanan --}}
-
-        {{-- update kode pemesanan dan status detail pemesanan barang --}}
-        {{-- <script>
-            $(document).ready(function() {
-                $.get('/admin/data-transaksi/get_pemesanan_admin', function(data) {
-
-                    // Fungsi untuk menghitung jumlah elemen dalam array
-                    function countArrayElements(array) {
-                        return array.length;
-                    }
-
-                    var jumlah_data = countArrayElements(data.pa);
-                    var kode_pemesanan;
-
-                    if (data.jpa > 0) {
-                        if (jumlah_data === data.jpa) {
-                            kode_pemesanan = 'KP' + (data.jpa + 2);
-                            $('#kode-pesan').val(kode_pemesanan);
-                        } else {
-                            kode_pemesanan = 'KP' + (data.jpa + 1);
-                            $('#kode-pesan').val(kode_pemesanan);
-                        }
-                    } else {
-                        kode_pemesanan = 'KP' + 1;
-                        $('#kode-pesan').val(kode_pemesanan);
-                    }
-
-                    $('#simpan_pemesanan_admin').on('click', function() {
-                        $.ajax({
-                            url: '{{ route('pemesanan-barang.store') }}',
-                            type: 'POST',
-                            data: {
-                                kode_pesan: $('#kode-pesan').val(),
-                                // Add other data parameters if needed
-                            },
-                            dataType: 'json', // Specify the expected data type of the response
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                    'content') // Add CSRF token
-                            },
-                            success: function(response) {
-                                console.log(response);
-                            },
-                            error: function(error) {
-                                console.error(error);
-                            }
-                        });
-                    });
-
-                });
-            });
-        </script> --}}
-        {{-- end update kode pemesanan dan status detail pemesanan barang --}}
     @endpush
 @endsection

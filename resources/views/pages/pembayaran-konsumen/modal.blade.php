@@ -14,9 +14,36 @@
     }
 </style>
 
+@foreach ($pemesanan_konsumen as $data)
+    <div class="modal fade" id="delete-pemesanan-barang-{{ $data->id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Pemesanan Barang</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('pemesanan-barang-konsumen.destroy', $data->id) }}" method="POST">
+                    @csrf
+                    @method('delete')
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <div class="mb-3">
+                                <p>Apakah kamu ingin menghapus pemesanan barang <b>{{ $data->kode_pemesanan }}</b> ?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Hapus</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endforeach
 
 {{-- upload struk pembayaran  --}}
-@foreach ($pemesanan_admin as $data)
+@foreach ($pemesanan_konsumen as $data)
     <div class="modal fade" id="upload-struk-{{ $data->id }}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -40,15 +67,14 @@
                                                     class="ml-1">
                                                     {{ Carbon::now()->isoFormat('dddd, DD MMMM YYYY') }}</span></div>
                                             <div class="billed"><span class="fw-bold text-uppercase text-dark">Kode
-                                                    Bayar:</span>{{ $data->pembayaran->kode_pembayaran }}</div>
+                                                    Bayar:</span>{{ $data->pembayaran_konsumen->kode_pembayaran }}</div>
                                         </div>
                                         <div class="col-md-6 text-right mt-3">
-                                            <h4 class="text-danger mb-0 text-uppercase">Supplier</h4>
-                                            <span class="fw-bold text-dark">{{ $data->supplier->nama }}</span>
                                             <div class="mt-3">
                                                 <label class="form-label">Metode pembayaran</label>
                                                 <input type="text" class="form-control text-uppercase"
-                                                    value="{{ $data->pembayaran->metode_pembayaran }}" readonly>
+                                                    value="{{ $data->pembayaran_konsumen->metode_pembayaran }}"
+                                                    readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -67,7 +93,7 @@
                                                     {{-- @php
                                                         $total = 0;
                                                     @endphp
-                                                    @forelse ($data->pemesanan_admin_detail as $item)
+                                                    @forelse ($data->pemesanan_konsumen_detail as $item)
                                                         <tr>
                                                             <td>{{ $item->data_barang->nama_barang }}</td>
                                                             <td>{{ $item->jumlah }}</td>
@@ -88,9 +114,9 @@
                                                     </tr> --}}
 
                                                     <tr>
-                                                        <td>{{ $data->data_barang->nama_barang }}</td>
+                                                        <td>{{ $data->nama_barang }}</td>
                                                         <td>{{ $data->jumlah }}</td>
-                                                        <td>{{ $data->data_barang->harga_barang }}</td>
+                                                        <td>{{ $data->harga_barang }}</td>
                                                         <td>{{ $data->total }}</td>
                                                     </tr>
                                                 </tbody>
@@ -98,7 +124,8 @@
                                         </div>
                                     </div>
 
-                                    <form action="{{ route('upload_struk_pembayaran', $data->pembayaran->id) }}"
+                                    <form
+                                        action="{{ route('konsumen.upload_struk_pembayaran', $data->pembayaran_konsumen->id) }}"
                                         method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method('put')
@@ -123,7 +150,7 @@
 {{-- end upload struk pembayaran --}}
 
 {{-- edit --}}
-@foreach ($pemesanan_admin as $data)
+@foreach ($pemesanan_konsumen as $data)
     <div class="modal fade" id="edit-struk-{{ $data->id }}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -147,15 +174,16 @@
                                                     class="ml-1">
                                                     {{ Carbon::now()->isoFormat('dddd, DD MMMM YYYY') }}</span></div>
                                             <div class="billed"><span class="fw-bold text-uppercase text-dark">Kode
-                                                    Bayar:</span>{{ $data->pembayaran->kode_pembayaran }}</div>
+                                                    Bayar:</span>{{ $data->pembayaran_konsumen->kode_pembayaran }}
+                                            </div>
                                         </div>
                                         <div class="col-md-6 text-right mt-3">
-                                            <h4 class="text-danger mb-0 text-uppercase">Supplier</h4>
-                                            <span class="fw-bold text-dark">{{ $data->supplier->nama }}</span>
+
                                             <div class="mt-3">
                                                 <label class="form-label">Metode pembayaran</label>
                                                 <input type="text" class="form-control text-uppercase"
-                                                    value="{{ $data->pembayaran->metode_pembayaran }}" readonly>
+                                                    value="{{ $data->pembayaran_konsumen->metode_pembayaran }}"
+                                                    readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -172,9 +200,9 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td>{{ $data->data_barang->nama_barang }}</td>
+                                                        <td>{{ $data->nama_barang }}</td>
                                                         <td>{{ $data->jumlah }}</td>
-                                                        <td>{{ $data->data_barang->harga_barang }}</td>
+                                                        <td>{{ $data->harga_barang }}</td>
                                                         <td>{{ $data->total }}</td>
                                                     </tr>
                                                 </tbody>
@@ -184,24 +212,23 @@
 
                                     <div class="upload-input text-center my-3 w-100">
                                         <h4 for="gambar" class="w-100 text-uppercase">Struk Pembayaran</h4>
-                                        <img src="{{asset(Str::replace(url('/') . '/img/struk/', '', '/img/struk/' . $data->pembayaran->gambar))}}" alt="" class="w-100" >
+                                        <img src="{{ asset(Str::replace(url('/') . '/img/struk/', '', '/img/struk/' . $data->pembayaran_konsumen->gambar)) }}"
+                                            alt="" class="w-100">
                                     </div>
 
-                                    <form action="{{ route('update_status_pembayaran', $data->id) }}"
-                                        method="POST">
+                                    <form action="{{ route('update_status_pembayaran', $data->id) }}" method="POST">
                                         @csrf
                                         @method('put')
                                         <div class="mb-3">
                                             <label for="status" class="form-label">Status Pembayaran</label>
                                             <select class="form-select form-select mb-3" name="status">
-                                            <option value="" selected>Silahkan pilih</option>
-                                            <option value="selesai">Selesai</option>
-                                            <option value="gagal">gagal</option>
-                                        </select>
+                                                <option value="" selected>Silahkan pilih</option>
+                                                <option value="selesai">Selesai</option>
+                                                <option value="gagal">gagal</option>
+                                            </select>
                                         </div>
                                         <div class="text-right mb-3">
-                                            <button class="btn btn-primary btn-sm mr-5" type="submit"
-                                                >Kirim</button>
+                                            <button class="btn btn-primary btn-sm mr-5" type="submit">Kirim</button>
                                         </div>
                                     </form>
                                 </div>
@@ -216,7 +243,7 @@
 {{-- end edit --}}
 
 {{-- show --}}
-@foreach ($pemesanan_admin as $data)
+@foreach ($pemesanan_konsumen as $data)
     <div class="modal fade" id="show-struk-{{ $data->id }}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -240,15 +267,16 @@
                                                     class="ml-1">
                                                     {{ Carbon::now()->isoFormat('dddd, DD MMMM YYYY') }}</span></div>
                                             <div class="billed"><span class="fw-bold text-uppercase text-dark">Kode
-                                                    Bayar:</span>{{ $data->pembayaran->kode_pembayaran }}</div>
+                                                    Bayar:</span>{{ $data->pembayaran_konsumen->kode_pembayaran }}
+                                            </div>
                                         </div>
                                         <div class="col-md-6 text-right mt-3">
-                                            <h4 class="text-danger mb-0 text-uppercase">Supplier</h4>
-                                            <span class="fw-bold text-dark">{{ $data->supplier->nama }}</span>
+
                                             <div class="mt-3">
                                                 <label class="form-label">Metode pembayaran</label>
                                                 <input type="text" class="form-control text-uppercase"
-                                                    value="{{ $data->pembayaran->metode_pembayaran }}" readonly>
+                                                    value="{{ $data->pembayaran_konsumen->metode_pembayaran }}"
+                                                    readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -265,9 +293,9 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td>{{ $data->data_barang->nama_barang }}</td>
+                                                        <td>{{ $data->nama_barang }}</td>
                                                         <td>{{ $data->jumlah }}</td>
-                                                        <td>{{ $data->data_barang->harga_barang }}</td>
+                                                        <td>{{ $data->harga_barang }}</td>
                                                         <td>{{ $data->total }}</td>
                                                     </tr>
                                                 </tbody>
@@ -276,10 +304,12 @@
                                     </div>
                                     <div class="upload-input text-center my-3 w-100">
                                         <h4 for="gambar" class="w-100 text-uppercase">Struk Pembayaran</h4>
-                                        <img src="{{asset(Str::replace(url('/') . '/img/struk/', '', '/img/struk/' . $data->pembayaran->gambar))}}" alt="" class="w-100" >
+                                        <img src="{{ asset(Str::replace(url('/') . '/img/struk/', '', '/img/struk/' . $data->pembayaran_konsumen->gambar)) }}"
+                                            alt="" class="w-100">
                                     </div>
                                     <div class="text-right mb-3">
-                                        <button  type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Tutup</button>
                                     </div>
                                 </div>
                             </div>

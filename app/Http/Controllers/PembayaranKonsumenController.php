@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BarangMasuk;
 use App\Models\PembayaranKonsumen;
 use App\Models\PemesananKonsumen;
 use GuzzleHttp\Client;
@@ -109,18 +110,31 @@ class PembayaranKonsumenController extends Controller
         $nama_pembayaran = $baseURL . '/' . $penempatan_file . Str::slug($pembayaran->kode_pembayaran, '_') . '_' . Carbon::now()->format('YmdHis') . "." . $gambar->getClientOriginalExtension();
         $gambar->move(public_path($penempatan_file), $nama_pembayaran);
 
+
         $data['gambar'] = $nama_pembayaran;
 
         $pembayaran->update($data);
+
+        $data_barang = BarangMasuk::where('id', $pembayaran->pemesanan_konsumen->barang_masuk->id)->first();
+
+
+        $stok_barang_baru = $data_barang->jumlah - $pembayaran->pemesanan_konsumen->jumlah; // Corrected this line
+
+        $data_barang->update([
+            'jumlah' => $stok_barang_baru
+        ]);
+
+
+
 
         // notifikasi whatsapps
         $client = new Client();
         $url = "http://47.250.13.56/message";
 
         $admin = User::where('roles', 'admin')->first();
-
         $wa = $admin->nomor_ponsel;
         $message = "Konsumen sudah mengirim bukti transaksi pembayaran silahkan *cek dan ubah status pembayaran*";
+
 
         $body = [
             'phoneNumber' => $wa,
@@ -133,6 +147,56 @@ class PembayaranKonsumenController extends Controller
         ]);
 
         Alert::success("Sukses", "berhasil mengupload struk pembayaran");
+        return redirect()->back();
+    }
+
+    public function update_status_pembayaran(Request $request, $id)
+    {
+        // mengambil pemesanan admin dan pembayaran
+        $pemesanan_admin = pemesanankonsumen::findOrFail($id);
+        $pembayaran = Pembayarankonsumen::where('pemesanan_admin_id', $pemesanan_admin->id)->first();
+        $data = $request->all();
+
+        // memperbarui status pemesanan admin dan pembayaran
+        $pemesanan_admin->update($data);
+        $pembayaran->update($data);
+
+        // membuat data barang masuk
+        $item = [
+            "supplier_id" => $pembayaran->pemesanan_admin->supplier->id,
+            "data_barang_id" => $pembayaran->pemesanan_admin->data_barang->id,
+            "kode_barang" => $pembayaran->pemesanan_admin->data_barang->kode_barang,
+            "tanggal_masuk" => Carbon::now()->format('Y-m-d'),
+            "jumlah" => $pembayaran->pemesanan_admin->jumlah,
+            "status" => "perjalanan"
+        ];
+
+        BarangMasuk::create($item);
+
+
+        // notifikasi whatsapps
+        $client = new Client();
+        $url = "http://47.250.13.56/message";
+
+        $wa = "081343671284";
+        if ($pembayaran->status == 'selesai') {
+            $message = "*Supplier " . $pembayaran->pemesanan_admin->supplier->nama . "* sudah menerima pembayaran anda silahkan tunggu sampai barangnya sampai";
+        } else {
+            $message = "*Supplier " . $pembayaran->pemesanan_admin->supplier->nama . "* membatalkan pesanan anda";
+        }
+
+        $body = [
+            'phoneNumber' => $wa,
+            'message' => $message,
+        ];
+
+        $client->request('POST', $url, [
+            'form_params' => $body,
+            'verify'  => false,
+        ]);
+
+
+        Alert::success("Sukses", "berhasil memperbarui status pembayaran");
         return redirect()->back();
     }
 }

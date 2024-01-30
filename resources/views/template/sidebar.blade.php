@@ -80,6 +80,9 @@
                             class="dropdown-item {{ request()->is('admin/pengguna/supplier*') ? 'active' : '' }}">Supplier</a>
                     </div>
                 </div>
+                <a href="{{ route('admin.pembayaran.index') }}"
+                    class="nav-item nav-link {{ request()->is('supplier/pembayaran*') ? 'active' : '' }}"><i
+                        class="fas fa-dollar-sign me-2"></i>Pembayaran</a>
             @endif
             {{-- end roles admin --}}
 

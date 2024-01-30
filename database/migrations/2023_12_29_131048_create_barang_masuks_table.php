@@ -26,6 +26,11 @@ return new class extends Migration
             $table->string('kode_barang');
             $table->date('tanggal_keluar');
             $table->bigInteger('jumlah');
+            $table->unsignedBigInteger('konsumen_id')->nullable();
+            $table->foreign('konsumen_id')->references('id')->on('konsumens')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('barang_masuk_id')->nullable();
+            $table->foreign('barang_masuk_id')->references('id')->on('barang_masuk')->onDelete('cascade')->onUpdate('cascade');
+            $table->enum('status', ['perjalanan', 'sampai'])->nullable();
             $table->timestamps();
         });
     }

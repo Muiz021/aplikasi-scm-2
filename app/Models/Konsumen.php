@@ -21,4 +21,9 @@ class Konsumen extends Model
     {
         return $this->hasMany(PemesananKonsumen::class);
     }
+
+    public function barangKeluar()
+    {
+        return $this->hasMany(BarangKeluar::class, 'konsumen_id');
+    }
 }

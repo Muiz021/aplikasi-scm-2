@@ -32,17 +32,23 @@
         </div> --}}
         <div class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                <img class="rounded-circle me-lg-2" src="{{asset('img/user.jpg')}}" alt="" style="width: 40px; height: 40px;">
-                @if (Auth::user()->roles === 'admin')
-                <span class="d-none d-lg-inline-flex">{{Auth::user()->username}}</span>
-                @elseif (Auth::user()->roles === 'supplier')
-                <span class="d-none d-lg-inline-flex">{{Auth::user()->username}}</span>
+                @if (Auth::user()->konsumen->gambar)
+                    <img src="{{ asset(Str::replace(url('/') . '/img/profile/', '', '/img/profile/' . Auth::user()->konsumen->gambar)) }}"
+                        style="width: 40px; height: 40px;">
                 @else
-                <span class="d-none d-lg-inline-flex">{{Auth::user()->username}}</span>
+                    <img class="rounded-circle me-lg-2" src="{{ asset('img/user.jpg') }}" alt=""
+                        style="width: 40px; height: 40px;">
+                @endif
+                @if (Auth::user()->roles === 'admin')
+                    <span class="d-none d-lg-inline-flex">{{ Auth::user()->username }}</span>
+                @elseif (Auth::user()->roles === 'supplier')
+                    <span class="d-none d-lg-inline-flex">{{ Auth::user()->username }}</span>
+                @else
+                    <span class="d-none d-lg-inline-flex">{{ Auth::user()->username }}</span>
                 @endif
             </a>
             <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                <a href="{{route('logout')}}" class="dropdown-item">Log Out</a>
+                <a href="{{ route('logout') }}" class="dropdown-item">Log Out</a>
             </div>
         </div>
     </div>

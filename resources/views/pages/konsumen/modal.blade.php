@@ -1,3 +1,19 @@
+@php
+    use Carbon\Carbon;
+@endphp
+<style>
+    .upload-input {
+        border: 2px dashed #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        width: 200px;
+    }
+
+    .upload-input:hover {
+        border-color: #aaa;
+    }
+</style>
+
 {{-- edit --}}
 @foreach ($konsumen as $item)
     <div class="modal fade" id="edit-konsumen-{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -23,8 +39,10 @@
                                     <label class="form-label">status</label>
                                     <select class="form-select form-select mb-3" name="status" id="statusSelect">
                                         <option value="" selected>Silahkan pilih</option>
-                                        <option value="1" {{$item->status == 1 ? 'selected' : ''}} >konfirmasi</option>
-                                        <option value="0" {{$item->status == 0 ? 'selected' : ''}}>belum konfirmasi</option>
+                                        <option value="1" {{ $item->status == 1 ? 'selected' : '' }}>konfirmasi
+                                        </option>
+                                        <option value="0" {{ $item->status == 0 ? 'selected' : '' }}>belum
+                                            konfirmasi</option>
 
                                     </select>
                                 </div>
@@ -42,7 +60,7 @@
                             <div class="col-6">
                                 <div class="mb-3">
                                     <label class="form-label">gambar sekarang</label>
-                                    <img src="{{$item->konsumen->gambar}}" alt="">
+                                    <img src="{{ $item->konsumen->gambar }}" alt="">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">upload gambar</label>
@@ -50,11 +68,10 @@
                                         value="{{ $item->konsumen->nomor_ponsel }}">
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">alamat</label>
-                                    <textarea rows="5" class="form-control">
-                                        {{ $item->konsumen->alamat }}
-                                    </textarea>
+                                    <label class="form-label">Alamat</label>
+                                    <textarea rows="5" class="form-control">{{ $item->konsumen->alamat }}</textarea>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -84,7 +101,8 @@
                         <div class="col-6">
                             <div class="mb-3">
                                 <label class="form-label">nama</label>
-                                <input type="text" class="form-control" value="{{ $item->konsumen->nama }}" readonly>
+                                <input type="text" class="form-control" value="{{ $item->konsumen->nama }}"
+                                    readonly>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">status</label>
@@ -98,8 +116,8 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">nomor ponsel</label>
-                                <input type="text" class="form-control" value="{{ $item->konsumen->nomor_ponsel }}"
-                                    readonly>
+                                <input type="text" class="form-control"
+                                    value="{{ $item->konsumen->nomor_ponsel }}" readonly>
                             </div>
                         </div>
                         <div class="col-6">

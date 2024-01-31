@@ -216,7 +216,8 @@
                                             alt="" class="w-100">
                                     </div>
 
-                                    <form action="{{ route('update_status_pembayaran', $data->id) }}" method="POST">
+                                    <form action="{{ route('update_status_pembayaran_konsumen', $data->id) }}"
+                                        method="POST">
                                         @csrf
                                         @method('put')
                                         <div class="mb-3">

@@ -11,9 +11,11 @@ use App\Http\Controllers\DataBarangController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\JenisBarangController;
 use App\Http\Controllers\MerekBarangController;
+use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\PemesananAdminController;
 use App\Http\Controllers\PemesananKonsumenController;
 use App\Http\Controllers\PembayaranKonsumenController;
+use App\Models\BarangKeluar;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +39,7 @@ Route::get('registrasi', [AuthController::class, 'registrasi'])->name('registras
 Route::get('registrasi/supplier', [AuthController::class, 'registrasi_supplier'])->name('registrasi_supplier');
 Route::get('registrasi/user', [AuthController::class, 'registrasi_user'])->name('registrasi_user');
 route::get('kode_supplier', [AuthController::class, 'kode_supplier'])->name('kode_supplier');
+route::get('kode_konsumen', [AuthController::class, 'kode_konsumen'])->name('kode_konsumen');
 Route::post('registrasi/supplier', [AuthController::class, 'registrasi_action_supplier'])->name('registrasi_action_supplier');
 Route::post('registrasi/user', [AuthController::class, 'registrasi_action_pengguna'])->name('registrasi_action_pengguna');
 
@@ -55,6 +58,11 @@ Route::prefix('admin')->middleware(['auth', 'OnlyAdmin'])->group(function () {
         // supplier
         Route::resource('supplier', SupplierController::class)->except('create', 'store', 'edit', 'show');
         Route::put('konfirmasi-supplier/{id}', [SupplierController::class, 'konfirmasi_supplier'])->name('konfirmasi_supplier');
+
+        Route::get('pembayaran-konsumen', [PembayaranKonsumenController::class, 'index'])->name('konsumen.pembayaran.index');
+        Route::put('update_status_pembayaran_konsumen/{id}', [PembayaranKonsumenController::class, 'update_status_pembayaran'])->name('update_status_pembayaran_konsumen');
+
+        Route::get('barang-keluar', [BarangKeluarController::class, 'index'])->name('barang.keluar.admin');
     });
 
     // data transaksi
@@ -136,6 +144,11 @@ Route::prefix('konsumen')->middleware(['auth', 'OnlyKosumen'])->group(function (
 
     Route::get('dashboard', [DashboardController::class, 'konsumen_dashboard'])->name('dashboard.konsumen');
 
+    Route::delete('delete-barang-keluar/{id}', [BarangKeluarController::class, 'destroy'])->name('destroy.barang.keluar');
+
+    Route::resource('barang-keluar', BarangKeluarController::class);
+
+    Route::put('update_status_barang_keluar/{id}', [BarangKeluarController::class, 'update_status'])->name('update_status_barang_keluar');
     Route::prefix('data-transaksi')->group(function () {
         Route::resource('pemesanan-barang-konsumen', PemesananKonsumenController::class);
 

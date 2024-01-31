@@ -3,7 +3,7 @@
 @if (Auth::user()->roles == 'konsumen')
     @section('roles', 'konsumen')
 @else
-    @section('roles', 'Supplier')
+    @section('roles', 'admin')
 @endif
 
 @section('title', 'pembayaran barang')
@@ -56,10 +56,12 @@
                                                         data-bs-target="#upload-struk-{{ $item->id }}">Upload
                                                         Struk</button>
                                                 @endif
-                                                @if (Auth::user()->roles == 'supplier' && $item->pembayaran->status == 'proses')
+                                                @if (Auth::user()->roles == 'admin' && $item->status == 'proses')
                                                     <button class="btn btn-sm btn-success text-white" data-bs-toggle="modal"
                                                         data-bs-target="#edit-struk-{{ $item->id }}">Edit</button>
                                                 @endif
+
+
                                             </div>
                                         </td>
                                     </tr>

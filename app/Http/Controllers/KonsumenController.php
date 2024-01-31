@@ -36,14 +36,14 @@ class KonsumenController extends Controller
         $konsumen = Konsumen::where('user_id', $user->id)->first();
 
         $data = $request->all();
-
-        if ($request->gambar) {
-            $baseURL = url('/');
-            $file_path = Str::replace($baseURL . '/img/konsumen/', '', public_path() . '/img/konsumen/' . $konsumen->gambar);
-            unlink($file_path);
+        if ($request->hasFile('gambar')) {
+            // Check if $konsumen->gambar is not null before calling exists()
+            if ($konsumen->gambar && file_exists($konsumen->gambar)) {
+                unlink($konsumen->gambar);
+            }
 
             $gambar = $request->file('gambar');
-            $penempatan_file = 'img/konsumen/';
+            $penempatan_file = 'img/profile/';
             $baseURL = url('/');
             $nama_konsumen = $baseURL . '/' . $penempatan_file . Str::slug($request->nama, '_') . '_' . Carbon::now()->format('YmdHis') . "." . $gambar->getClientOriginalExtension();
             $gambar->move(public_path($penempatan_file), $nama_konsumen);

@@ -67,9 +67,18 @@ class AuthController extends Controller
         return Response::json(['supplier' => $supplier, 'countSupplier' => $countSupplier], 200);
     }
 
+    public function kode_konsumen()
+    {
+        $konsumen = konsumen::get();
+        $countKonsumen = konsumen::count();
+
+        return Response::json(['konsumen' => $konsumen, 'countKonsumen' => $countKonsumen], 200);
+    }
+
     public function registrasi_action_pengguna(Request $request)
     {
         $data = $request->all();
+
         $data['roles'] = 'konsumen';
 
         $user = User::create([
@@ -78,8 +87,10 @@ class AuthController extends Controller
             'roles' =>  $data['roles']
         ]);
 
+
         Konsumen::create([
             'user_id' => $user->id,
+            'kode_konsumen' => $data['kode_konsumen'],
             'nama' => $data['nama'],
             'email' => $data['email'],
         ]);

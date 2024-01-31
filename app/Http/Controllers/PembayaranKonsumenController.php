@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BarangKeluar;
 use App\Models\BarangMasuk;
 use App\Models\PembayaranKonsumen;
 use App\Models\PemesananKonsumen;
@@ -71,9 +72,9 @@ class PembayaranKonsumenController extends Controller
         $wa = $pemesanan_konsumen->konsumen->nomor_ponsel;
 
         if ($pembayaran->metode_pembayaran == 'transfer') {
-            $message = "Admin sedang memesan barang pada kamu dengan kode pemesanan " . $pemesanan_konsumen->kode_pemesanan . " dan menggunakan metode pembayaran " . $pembayaran->metode_pembayaran . ". Silahkan kirim nomor rekening kamu ke WhatsApp admin (0813123123)";
+            $message = "Anda sedang memesan barang pada kamu dengan kode pemesanan " . $pemesanan_konsumen->kode_pemesanan . " dan menggunakan metode pembayaran " . $pembayaran->metode_pembayaran . ". Silahkan kirim nomor rekening kamu ke WhatsApp admin (0813123123)";
         } elseif ($pembayaran->metode_pembayaran == 'tunai') {
-            $message = "Admin sedang memesan barang pada kamu dengan kode pemesanan " . $pemesanan_konsumen->kode_pemesanan . " dan menggunakan metode pembayaran " . $pembayaran->metode_pembayaran . ". Silahkan hubungi WhatsApp admin (0813123123) untuk pembayaran yang lebih detail";
+            $message = "Anda sedang memesan barang pada kamu dengan kode pemesanan " . $pemesanan_konsumen->kode_pemesanan . " dan menggunakan metode pembayaran " . $pembayaran->metode_pembayaran . ". Silahkan hubungi WhatsApp admin (0813123123) untuk pembayaran yang lebih detail";
         }
 
         $body = [
@@ -150,39 +151,44 @@ class PembayaranKonsumenController extends Controller
         return redirect()->back();
     }
 
+
+
     public function update_status_pembayaran(Request $request, $id)
     {
-        // mengambil pemesanan admin dan pembayaran
-        $pemesanan_admin = pemesanankonsumen::findOrFail($id);
-        $pembayaran = Pembayarankonsumen::where('pemesanan_admin_id', $pemesanan_admin->id)->first();
+        // mengambil pemesanan konsumen dan pembayaran
+        $pemesanan_konsumen = PemesananKonsumen::findOrFail($id);
+        $pembayaran = PembayaranKonsumen::where('pemesanan_konsumen_id', $pemesanan_konsumen->id)->first();
         $data = $request->all();
 
-        // memperbarui status pemesanan admin dan pembayaran
-        $pemesanan_admin->update($data);
+        // Memperbarui status pemesanan konsumen dan pembayaran
+        $pemesanan_konsumen->update($data);
         $pembayaran->update($data);
 
-        // membuat data barang masuk
+        // Membuat data barang keluar
         $item = [
-            "supplier_id" => $pembayaran->pemesanan_admin->supplier->id,
-            "data_barang_id" => $pembayaran->pemesanan_admin->data_barang->id,
-            "kode_barang" => $pembayaran->pemesanan_admin->data_barang->kode_barang,
-            "tanggal_masuk" => Carbon::now()->format('Y-m-d'),
-            "jumlah" => $pembayaran->pemesanan_admin->jumlah,
+            "konsumen_id" => $pemesanan_konsumen->pemesanan_konsumen->barang_masuk->supplier_id,
+            "barang_masuk_id" => $pembayaran->pemesanan_konsumen->barang_masuk->id,
+            "kode_barang" => $pembayaran->pemesanan_konsumen->barang_masuk->kode_barang,
+            "tanggal_keluar" => Carbon::now()->format('Y-m-d'),
+            "jumlah" => $pembayaran->pemesanan_konsumen->jumlah,
             "status" => "perjalanan"
         ];
 
-        BarangMasuk::create($item);
+        // dd($item);
+        BarangKeluar::create($item);
 
 
         // notifikasi whatsapps
         $client = new Client();
         $url = "http://47.250.13.56/message";
 
-        $wa = "081343671284";
+
+        $wa = $pembayaran->pemesanan_konsumen->konsumen->nomor_ponsel;
+
         if ($pembayaran->status == 'selesai') {
-            $message = "*Supplier " . $pembayaran->pemesanan_admin->supplier->nama . "* sudah menerima pembayaran anda silahkan tunggu sampai barangnya sampai";
+            $message = "* Admin sudah menerima pembayaran anda silahkan tunggu sampai barangnya sampai";
         } else {
-            $message = "*Supplier " . $pembayaran->pemesanan_admin->supplier->nama . "* membatalkan pesanan anda";
+            $message = "* Admin membatalkan pesanan anda";
         }
 
         $body = [

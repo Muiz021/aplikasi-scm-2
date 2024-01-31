@@ -36,12 +36,11 @@
                                 <input type="text" class="form-control" value="{{ $user->konsumen->nomor_ponsel }}"
                                     readonly>
                             </div>
-                            {{-- <div class="mb-3">
-                                <label class="form-label fw-bold">alamat</label>
-                                <textarea name="alamat" id="" cols="30" rows="8" class="form-control" readonly>
-                                    {{ $user->konsumen->alamat }}
-                                </textarea>
-                            </div> --}}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Alamat</label>
+                                <textarea name="alamat" id="" cols="30" rows="8" class="form-control" readonly>{{ $user->konsumen->alamat }}</textarea>
+                            </div>
+
                         </div>
                     </div>
                     <div class="d-flex justify-content-end">
@@ -85,7 +84,7 @@
                 </div>
             </div>
         </div>
-    </div> --}} --}}
+    </div> --}}
     <!-- Sale & Revenue End -->
 
     {{-- modal profil --}}
@@ -97,7 +96,8 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('profil-konsumen.update', $user->id) }}" method="post">
+                <form action="{{ route('profil-konsumen.update', $user->id) }}" method="post"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
@@ -141,6 +141,10 @@
                                         <textarea name="alamat" id="" cols="30" rows="5" class="form-control">
                                         {{ $user->konsumen->alamat }}
                                     </textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h6>Upload Foto Profile</h6>
+                                        <input type="file" name="gambar" class="form-control">
                                     </div>
                                 </div>
                             </div>

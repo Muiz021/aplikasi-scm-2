@@ -153,6 +153,8 @@ class PembayaranController extends Controller
             "supplier_id" => $pembayaran->pemesanan_admin->supplier->id,
             "data_barang_id" => $pembayaran->pemesanan_admin->data_barang->id,
             "kode_barang" => $pembayaran->pemesanan_admin->data_barang->kode_barang,
+            "nama_barang" => $pembayaran->pemesanan_admin->data_barang->nama,
+            "jenis_barang" => $pembayaran->pemesanan_admin->data_barang->jenis,
             "tanggal_masuk" => Carbon::now()->format('Y-m-d'),
             "jumlah" => $pembayaran->pemesanan_admin->jumlah,
             "status" => "perjalanan"

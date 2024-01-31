@@ -70,8 +70,11 @@
                         <a href="{{ route('pembayaran.index') }}"
                             class="dropdown-item {{ request()->is('admin/data-transaksi/pembayaran*') ? 'active' : '' }}">Pembayaran
                             ke supplier</a>
-                        <a href="{{route('barang_masuk.index')}}" class="dropdown-item {{ request()->is('admin/data-transaksi/barang_masuk*') ? 'active' : '' }}">Transaksi barang masuk</a>
-                        <a href="#" class="dropdown-item">Transaksi barang keluar</a>
+                        <a href="#" class="dropdown-item">Transaksi barang masuk</a>
+                        <a href="{{ route('barang.keluar.admin') }}"
+                            class="dropdown-item {{ request()->is('admin/barang-keluar*') ? 'active' : '' }}">Transaksi
+                            Barang
+                            keluar</a>
                     </div>
                 </div>
                 <div class="nav-item dropdown">
@@ -86,8 +89,8 @@
                             class="dropdown-item {{ request()->is('admin/pengguna/supplier*') ? 'active' : '' }}">Supplier</a>
                     </div>
                 </div>
-                <a href="{{ route('admin.pembayaran.index') }}"
-                    class="nav-item nav-link {{ request()->is('supplier/pembayaran*') ? 'active' : '' }}"><i
+                <a href="{{ route('konsumen.pembayaran.index') }}"
+                    class="nav-item nav-link {{ request()->is('konsumen/pembayaran*') ? 'active' : '' }}"><i
                         class="fas fa-dollar-sign me-2"></i>Pembayaran</a>
             @endif
             {{-- end roles admin --}}
@@ -115,7 +118,6 @@
                             Barang</a>
                     </div>
                 </div>
-
                 <a href="{{ route('admin.pembayaran.index') }}"
                     class="nav-item nav-link {{ request()->is('supplier/pembayaran*') ? 'active' : '' }}"><i
                         class="fas fa-dollar-sign me-2"></i>Pembayaran</a>
@@ -127,7 +129,6 @@
                 <a href="{{ route('dashboard.konsumen') }}"
                     class="nav-item nav-link {{ request()->is('konsumen/dashboard') ? 'active' : '' }}"><i
                         class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-
                 <div class="nav-item dropdown">
                     <a href="#"
                         class="nav-link {{ request()->is('konsumen/data-transaksi*') ? 'active' : '' }} dropdown-toggle show"
@@ -140,7 +141,9 @@
                         <a href="{{ route('pembayaran-konsumen.index') }}"
                             class="dropdown-item {{ request()->is('konsumen/data-transaksi/pembayaran*') ? 'active' : '' }}">Pembayaran
                             ke admin</a>
-
+                        <a href="{{ route('barang-keluar.index') }}"
+                            class="dropdown-item {{ request()->is('konsumen/barang-keluar*') ? 'active' : '' }}">Pesanan
+                            Barang</a>
                     </div>
                 </div>
             @endif

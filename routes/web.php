@@ -16,7 +16,6 @@ use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\PemesananAdminController;
 use App\Http\Controllers\PemesananKonsumenController;
 use App\Http\Controllers\PembayaranKonsumenController;
-use App\Models\BarangKeluar;
 
 /*
 |--------------------------------------------------------------------------

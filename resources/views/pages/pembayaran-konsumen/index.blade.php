@@ -51,7 +51,7 @@
                                                     <button class="btn btn-sm btn-danger me-2" data-bs-toggle="modal"
                                                         data-bs-target="#delete-pemesanan-barang-{{ $item->id }}">Hapus</button>
                                                 @endif
-                                                @if (Auth::user()->roles == 'konsumen' && $item->pembayaran === null)
+                                                @if (Auth::user()->roles == 'konsumen' && $item->pembayaran_konsumen->gambar == null)
                                                     <button class="btn btn-sm btn-info text-white" data-bs-toggle="modal"
                                                         data-bs-target="#upload-struk-{{ $item->id }}">Upload
                                                         Struk</button>

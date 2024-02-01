@@ -18,11 +18,6 @@ class PemesananAdminController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $pemesanan_admin = PemesananAdmin::where('status', null)->paginate(10);
@@ -42,7 +37,7 @@ class PemesananAdminController extends Controller
          $data = $request->all();
          $today = Carbon::now()->format('Y-m-d');
          $total = $data['harga'] * $data['jumlah'];
-         
+
         // validasi stok_barang apabila kosong
         if($data['stok_barang'] == 0){
         Alert::info("Peringatan", "stok barang tidak ada");
@@ -63,13 +58,6 @@ class PemesananAdminController extends Controller
         return redirect()->route('pemesanan-barang.index');
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\PemesananAdmin  $pemesananAdmin
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $pemesanan_admin = PemesananAdmin::find($id);
@@ -77,16 +65,6 @@ class PemesananAdminController extends Controller
 
         Alert::success("Sukses", "berhasil menghapus pemesanan admin");
         return redirect()->back();
-    }
-
-    /**
-     * detail pemesanan admin
-     */
-    public function create()
-    {
-        $supplier = Supplier::get();
-        $detail_pemesanan_barang = PemesananAdminDetail::with('data_barang')->get();
-        return view('pages.order-admin.create', compact('supplier', 'detail_pemesanan_barang'));
     }
 
     public function get_supplier_data_barang(Request $request)

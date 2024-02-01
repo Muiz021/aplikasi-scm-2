@@ -21,7 +21,7 @@ class PembayaranKonsumenController extends Controller
     {
         $user = Auth::user();
         if ($user->roles == 'konsumen') {
-            $pemesanan_konsumen = pemesananKonsumen::where('status', 'proses')->orWhere('status', 'selesai')->paginate(10);
+            $pemesanan_konsumen = pemesananKonsumen::with('pembayaran_konsumen')->where('status', 'proses')->orWhere('status', 'selesai')->paginate(10);
         } else {
             $pemesanan_konsumen = pemesananKonsumen::paginate(10);
         }
@@ -132,8 +132,7 @@ class PembayaranKonsumenController extends Controller
         $client = new Client();
         $url = "http://47.250.13.56/message";
 
-        $admin = User::where('roles', 'admin')->first();
-        $wa = $admin->nomor_ponsel;
+        $wa = '081343671284';
         $message = "Konsumen sudah mengirim bukti transaksi pembayaran silahkan *cek dan ubah status pembayaran*";
 
 
@@ -166,11 +165,11 @@ class PembayaranKonsumenController extends Controller
 
         // Membuat data barang keluar
         $item = [
-            "konsumen_id" => $pemesanan_konsumen->pemesanan_konsumen->barang_masuk->supplier_id,
-            "barang_masuk_id" => $pembayaran->pemesanan_konsumen->barang_masuk->id,
-            "kode_barang" => $pembayaran->pemesanan_konsumen->barang_masuk->kode_barang,
+            "konsumen_id" => $pemesanan_konsumen->supplier_id,
+            "barang_masuk_id" => $pemesanan_konsumen->barang_masuk->id,
+            "kode_barang" => $pemesanan_konsumen->barang_masuk->data_barang->id,
             "tanggal_keluar" => Carbon::now()->format('Y-m-d'),
-            "jumlah" => $pembayaran->pemesanan_konsumen->jumlah,
+            "jumlah" => $pemesanan_konsumen->jumlah,
             "status" => "perjalanan"
         ];
 

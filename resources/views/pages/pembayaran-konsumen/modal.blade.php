@@ -67,13 +67,13 @@
                                                     class="ml-1">
                                                     {{ Carbon::now()->isoFormat('dddd, DD MMMM YYYY') }}</span></div>
                                             <div class="billed"><span class="fw-bold text-uppercase text-dark">Kode
-                                                    Bayar:</span>{{ $data->pembayaran_konsumen->kode_pembayaran }}</div>
+                                                    Bayar:</span>{{  $data->pembayaran_konsumen->kode_pembayaran}}</div>
                                         </div>
                                         <div class="col-md-6 text-right mt-3">
                                             <div class="mt-3">
                                                 <label class="form-label">Metode pembayaran</label>
                                                 <input type="text" class="form-control text-uppercase"
-                                                    value="{{ $data->pembayaran_konsumen->metode_pembayaran }}"
+                                                    value="{{ $data->pembayaran_konsumen->metode_pembayaran}}"
                                                     readonly>
                                             </div>
                                         </div>
@@ -90,29 +90,6 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {{-- @php
-                                                        $total = 0;
-                                                    @endphp
-                                                    @forelse ($data->pemesanan_konsumen_detail as $item)
-                                                        <tr>
-                                                            <td>{{ $item->data_barang->nama_barang }}</td>
-                                                            <td>{{ $item->jumlah }}</td>
-                                                            <td>Rp.{{ number_format($item->harga, 0, ',', '.') }},00
-                                                            </td>
-                                                            <td>Rp.{{ number_format($item->harga * $item->jumlah, 0, ',', '.') }},00
-                                                            </td>
-                                                        </tr>
-                                                        @php
-                                                            $total += $item->harga * $item->jumlah;
-                                                        @endphp
-                                                    @empty
-                                                    @endforelse
-                                                    <tr>
-                                                        <th colspan="3">Total</th>
-                                                        <th>
-                                                            Rp.{{ number_format($total, 0, ',', '.') }},00</th>
-                                                    </tr> --}}
-
                                                     <tr>
                                                         <td>{{ $data->nama_barang }}</td>
                                                         <td>{{ $data->jumlah }}</td>

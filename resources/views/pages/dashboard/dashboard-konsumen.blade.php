@@ -12,11 +12,19 @@
             <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                 <div class="col-12">
                     <h6 class="text-uppercase">Profil {{ $user->konsumen->nama }}</h6>
-                    <div class="col-2">
-                        <img src="{{ asset('') }}" alt="">
-                    </div>
-                    <div class="d-flex">
-                        <div class="col-5 me-3">
+                    <div class="d-lg-flex">
+                        <div class="col-12 col-lg-6 me-3">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Foto profil</label>
+                                <img src="{{ asset(Str::replace(url('/') . '/img/profile/', '', '/img/profile/' . Auth::user()->konsumen->gambar)) }}" width="100%" alt="profil-user" style="aspect-ratio:16/16;object-fit:cover;">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">kode konsumen</label>
+                                <input type="text" class="form-control"
+                                    value="{{ $user->konsumen->kode_konsumen }}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
                             <div class="mb-3">
                                 <label class="form-label fw-bold">username</label>
                                 <input type="text" class="form-control" value="{{ $user->username }}" readonly>
@@ -29,8 +37,6 @@
                                 <label class="form-label fw-bold">email</label>
                                 <input type="text" class="form-control" value="{{ $user->konsumen->email }}" readonly>
                             </div>
-                        </div>
-                        <div class="col-5">
                             <div class="mb-3">
                                 <label class="form-label fw-bold">nomor ponsel</label>
                                 <input type="text" class="form-control" value="{{ $user->konsumen->nomor_ponsel }}"
@@ -103,8 +109,23 @@
                     <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                         <div class="col-12">
                             <h6 class="text-uppercase">Profil {{ $user->konsumen->nama }}</h6>
-                            <div class="d-flex">
-                                <div class="col-6 me-3">
+                            <div class="d-lg-flex">
+                                <div class="col-12 col-lg-6 me-3">
+                                    <div class="mb-3">
+                                        <h6>Foto Profile</h6>
+                                        <img src="{{ asset(Str::replace(url('/') . '/img/profile/', '', '/img/profile/' . Auth::user()->konsumen->gambar)) }}" width="100%" alt="profil-user" style="aspect-ratio:16/16;object-fit:cover;">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">kode konsumen</label>
+                                        <input type="text" class="form-control"
+                                            value="{{ $user->konsumen->kode_konsumen }}" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h6>Upload Foto Profile</h6>
+                                        <input type="file" name="gambar" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
                                     <div class="mb-3">
                                         <label class="form-label fw-bold">username</label>
                                         <input type="text" class="form-control" value="{{ $user->username }}"
@@ -115,17 +136,10 @@
                                         <input type="text" class="form-control" name="password">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label fw-bold">kode konsumen</label>
-                                        <input type="text" class="form-control"
-                                            value="{{ $user->konsumen->kode_konsumen }}" readonly>
-                                    </div>
-                                    <div class="mb-3">
                                         <label class="form-label fw-bold">nama</label>
                                         <input type="text" class="form-control" value="{{ $user->konsumen->nama }}"
                                             name="nama">
                                     </div>
-                                </div>
-                                <div class="col-6">
                                     <div class="mb-3">
                                         <label class="form-label fw-bold">email</label>
                                         <input type="text" class="form-control" value="{{ $user->konsumen->email }}"
@@ -141,10 +155,6 @@
                                         <textarea name="alamat" id="" cols="30" rows="5" class="form-control">
                                         {{ $user->konsumen->alamat }}
                                     </textarea>
-                                    </div>
-                                    <div class="mb-3">
-                                        <h6>Upload Foto Profile</h6>
-                                        <input type="file" name="gambar" class="form-control">
                                     </div>
                                 </div>
                             </div>

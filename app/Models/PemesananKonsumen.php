@@ -17,12 +17,10 @@ class PemesananKonsumen extends Model
         return $this->hasOne(BarangMasuk::class, 'id', 'barang_masuk_id');
     }
 
-
     public function pembayaran_konsumen()
     {
-        return $this->hasOne(PembayaranKonsumen::class);
+        return $this->hasOne(PembayaranKonsumen::class,'id','id');
     }
-
 
     public function konsumen()
     {

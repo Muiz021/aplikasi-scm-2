@@ -40,8 +40,8 @@ class BarangKeluarController extends Controller
         $client = new Client();
         $url = "http://47.250.13.56/message";
 
-        $admin = User::where('roles', 'admin')->first();
-        $wa = $admin->nomor_ponsel;
+        // $admin = User::where('roles', 'admin')->first();
+        $wa = '081343671284';
         $message = "pesanan konsumen telah sampai";
 
 

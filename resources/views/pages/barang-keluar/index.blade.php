@@ -38,8 +38,8 @@
                                 @foreach ($barang as $key => $item)
                                     <tr>
                                         <td>{{ $barang->firstItem() + $key }}</td>
-                                        <td>{{ $item->konsumen->kode_konsumen }}</td>
-                                        <td>{{ $item->konsumen->nama }}</td>
+                                        {{-- <td>{{ $item->konsumen->kode_konsumen }}</td>
+                                        <td>{{ $item->konsumen->nama }}</td> --}}
                                         <td>{{ $item->kode_barang }}</td>
                                         <td>{{ $item->barang_masuk->data_barang->nama_barang }}
                                         </td>
@@ -84,6 +84,6 @@
                 </div>
             </div>
         </div>
-        @include('pages.barang-keluar.modal')
+        {{-- @include('pages.barang-keluar.modal') --}}
     </div>
 @endsection

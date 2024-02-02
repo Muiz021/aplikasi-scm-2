@@ -128,9 +128,15 @@ class DataBarangController extends Controller
 
     public function getCount()
     {
-        $data_barang = DataBarang::get();
-        $countKodeBarang = DataBarang::count();
+        $latest_databarang = DataBarang::latest('kode_barang')->first();
+        if ($latest_databarang) {
+            $angkaData = intval(preg_replace('/[^0-9]/', '', $latest_databarang->kode_barang));
+            $kode_barang = 'KB' . str_pad($angkaData + 1, 3, '0', STR_PAD_LEFT);
+        } else {
+            $kode_barang = 'KB001';
+        }
 
-        return response()->json(['count' => $countKodeBarang, 'data' => $data_barang]);
+        return response()->json(['kode_barang' => $kode_barang], 200);
     }
+
 }

@@ -92,21 +92,7 @@
             $(document).ready(function() {
                 // Ambil count kode_barang saat halaman dimuat
                 $.get('/supplier/get-count', function(data) {
-                    // Fungsi untuk menghitung jumlah elemen dalam array
-                    function countArrayElements(array) {
-                        return array.length;
-                    }
-                    var jumlah_data = countArrayElements(data.data);
-
-                    if (data.count > 0) {
-                        if (jumlah_data === data.count) {
-                            $('#kode_barang').val('KB' + (data.count + 2));
-                        } else {
-                            $('#kode_barang').val('KB' + (data.count + 1));
-                        }
-                    } else {
-                        $('#kode_barang').val('KB' + 1);
-                    }
+                    $('#kode_barang').val(data.kode_barang);
                 });
             });
         </script>

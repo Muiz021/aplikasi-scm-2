@@ -9,6 +9,47 @@
         <div class="row g-4">
             <div class="col-sm-12">
                 <div class="bg-light rounded h-100 p-4">
+                    <h6 class="mb-4">Supplier</h6>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">Lokasi</th>
+                                    <th scope="col">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($supplier as $key => $item)
+                                    <tr>
+                                        <td>{{ $supplier->firstItem() + $key }}</td>
+                                        <td>{{ $item->nama }}</td>
+                                        <td>{{ Str::limit($item->lokasi, 50) }}</td>
+                                        <td>
+                                        <div class="d-flex">
+                                            <a href="{{route('pemesanan-barang.list-item',$item->id)}}" class="btn btn-sm btn-info text-white me-2" >Show</a>
+                                        </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="left">
+                            Showing {{ $supplier->firstItem() }} of {{ $supplier->lastItem() }}
+                        </div>
+                        <div class="right">
+                            {{ $supplier->links() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- <div class="row g-4">
+            <div class="col-sm-12">
+                <div class="bg-light rounded h-100 p-4">
                     <h6 class="mb-4">Tambah Pemesanan Barang</h6>
                     <div class="mb-3">
                         <label class="form-label">Kode pemesanan</label>
@@ -54,7 +95,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     @push('script')
         {{-- nilai supplier --}}

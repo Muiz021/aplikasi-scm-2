@@ -71,11 +71,11 @@ Route::prefix('admin')->middleware(['auth', 'OnlyAdmin'])->group(function () {
         Route::resource('pemesanan-barang', PemesananAdminController::class);
         Route::get('get_supplier_data_barang', [PemesananAdminController::class, 'get_supplier_data_barang'])->name('get_supplier_data_barang');
         Route::get('get_pemesanan_admin', [PemesananAdminController::class, 'get_pemesanan_admin'])->name('get_pemesanan_admin');
+        Route::get('list-item/{id}',[PemesananAdminController::class,'list_items'])->name('pemesanan-barang.list-item');
+        Route::get('order/{id}',[PemesananAdminController::class,'order'])->name('pemesanan-barang.order');
 
         // detail pemesanan barang ke supplier
         Route::get('data-barang/{id}', [PemesananAdminController::class, 'get_data_barang_per_id'])->name('pemesanan_barang.get_per_id');
-        Route::post('store-data-barang', [PemesananAdminController::class, 'store_detail_pemesanan'])->name('detail_pemesanan_barang.store');
-        Route::delete('delete-data-barang/{id}', [PemesananAdminController::class, 'destroy_detail_pemesanan'])->name('destroy_detail_pemesanan');
 
         // barang masuk
         Route::resource('barang_masuk', BarangMasukController::class)->except('create','store', 'edit', 'show');

@@ -1,3 +1,6 @@
+@php
+    use App\Models\PemesananAdmin;
+@endphp
 <div class="sidebar pe-4 pb-3">
     <nav class="navbar bg-light navbar-light">
         <a href="@if (Auth::user()->roles == 'admin') {{ route('dashboard.admin') }}
@@ -77,7 +80,7 @@
                             ke supplier</a>
                         <a href="{{route('barang_masuk.index')}}" class="dropdown-item">Transaksi barang masuk</a>
                         <a href="{{ route('barang.keluar.admin') }}"
-                            class="dropdown-item {{ request()->is('admin/barang-keluar*') ? 'active' : '' }}">Transaksi
+                            class="dropdown-item {{ request()->is('admin/pengguna/barang-keluar*') ? 'active' : '' }}">Transaksi
                             Barang
                             keluar</a>
                     </div>
@@ -123,9 +126,11 @@
                             Barang</a>
                     </div>
                 </div>
+                @if (PemesananAdmin::get()->isEmpty())
                 <a href="{{ route('admin.pembayaran.index') }}"
-                    class="nav-item nav-link {{ request()->is('supplier/pembayaran*') ? 'active' : '' }}"><i
-                        class="fas fa-dollar-sign me-2"></i>Pembayaran</a>
+                class="nav-item nav-link {{ request()->is('supplier/pembayaran*') ? 'active' : '' }}"><i
+                    class="fas fa-dollar-sign me-2"></i>Pembayaran</a>
+                @endif
             @endif
             {{-- end roles supplier --}}
 

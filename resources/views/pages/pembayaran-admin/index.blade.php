@@ -56,6 +56,7 @@
                                                         data-bs-target="#upload-struk-{{ $item->id }}">Upload
                                                         Stuk</button>
                                                 @endif
+
                                                 @if (Auth::user()->roles == 'supplier' && $item->pembayaran->status == 'proses')
                                                     <button class="btn btn-sm btn-success text-white" data-bs-toggle="modal"
                                                         data-bs-target="#edit-struk-{{ $item->id }}">Edit</button>

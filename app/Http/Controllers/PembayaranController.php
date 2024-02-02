@@ -21,9 +21,9 @@ class PembayaranController extends Controller
     {
         $user = Auth::user();
         if ($user->roles == 'admin') {
-            $pemesanan_admin = PemesananAdmin::where('status', 'proses')->orWhere('status', 'selesai')->paginate(10);
-        } else {
             $pemesanan_admin = PemesananAdmin::paginate(10);
+        } else {
+            $pemesanan_admin = PemesananAdmin::where('status', 'proses')->orWhere('status', 'selesai')->paginate(10);
         }
         return view('pages.pembayaran-admin.index', compact('pemesanan_admin'));
     }

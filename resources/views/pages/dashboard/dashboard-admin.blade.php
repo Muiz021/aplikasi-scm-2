@@ -6,39 +6,40 @@
 @section('content')
 
     {{-- profil --}}
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                <div class="col-12">
-                    <h6 class="text-uppercase">Profil Admin</h6>
-                    <div class="d-flex">
-                        <div class="col-6 me-3">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">username</label>
-                                <input type="text" class="form-control" value="{{ $user->username }}" readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">email</label>
-                                <input type="text" class="form-control" value="admin@gmail.com" readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">nomor ponsel</label>
-                                <input type="text" class="form-control" value="081122334455" readonly>
-                            </div>
+    {{-- <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded p-4">
+            <div class="row">
+                <h6 class="text-uppercase">Profil {{ $user->username }}</h6>
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" value="{{ $user->username }}" readonly>
+                            <label class="form-label fw-bold">username</label>
                         </div>
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">alamat</label>
-                                <textarea name="alamat" id="" cols="30" rows="8" class="form-control" readonly>
-                                Jl. Alauddin Makassar no 20
-                            </textarea>
-                            </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" value="#" readonly>
+                            <label class="form-label fw-bold">nomor ponsel</label>
                         </div>
                     </div>
                 </div>
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <div class="form-floating">
+                            <textarea class="form-control" name="deskripsi" placeholder="masukan deskripsi barang" style="height: 200px;" readonly>{{ $user->supplier->alamat }}</textarea>
+                            <label class="form-label fw-bold">alamat</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 d-flex justify-content-end">
+                    <button class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#edit-profil-{{ $user->id }}">edit</button>
+                </div>
+
             </div>
         </div>
-    </div>
+    </div> --}}
     {{-- end profil --}}
 
     {{-- barang masuk dan keluar --}}

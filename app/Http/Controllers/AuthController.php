@@ -61,22 +61,38 @@ class AuthController extends Controller
 
     public function kode_supplier()
     {
-        $supplier = Supplier::get();
-        $countSupplier = Supplier::count();
+        $latest_supplier = Supplier::latest('kode_supplier')->first();
+        if ($latest_supplier) {
+            $angkaData = intval(preg_replace('/[^0-9]/', '', $latest_supplier->kode_supplier));
+            $kode_supplier = 'KS' . str_pad($angkaData + 1, 3, '0', STR_PAD_LEFT);
+        } else {
+            $kode_supplier = 'KS001';
+        }
 
-        return Response::json(['supplier' => $supplier, 'countSupplier' => $countSupplier], 200);
+        return response()->json(['kode_supplier' => $kode_supplier], 200);
     }
 
     public function kode_konsumen()
     {
-        $konsumen = konsumen::get();
-        $countKonsumen = konsumen::count();
+        $latest_konsumen = Konsumen::latest('kode_konsumen')->first();
+        if ($latest_konsumen) {
+            $angkaData = intval(preg_replace('/[^0-9]/', '', $latest_konsumen->kode_konsumen));
+            $kode_konsumen = 'KK' . str_pad($angkaData + 1, 3, '0', STR_PAD_LEFT);
+        } else {
+            $kode_konsumen = 'KK001';
+        }
 
-        return Response::json(['konsumen' => $konsumen, 'countKonsumen' => $countKonsumen], 200);
+        return response()->json(['kode_konsumen' => $kode_konsumen], 200);
     }
 
     public function registrasi_action_pengguna(Request $request)
     {
+        $request->validate([
+            'username' => 'unique:users',
+        ],[
+            Alert::error("Gagal", "username sudah digunakan")
+        ]);
+
         $data = $request->all();
 
         $data['roles'] = 'konsumen';
@@ -100,6 +116,12 @@ class AuthController extends Controller
     }
     public function registrasi_action_supplier(Request $request)
     {
+        $request->validate([
+            'username' => 'unique:users',
+        ],[
+            Alert::error("Gagal", "username sudah digunakan")
+        ]);
+
         $data = $request->all();
         $data['roles'] = 'supplier';
 

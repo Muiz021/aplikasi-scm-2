@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Pembayaran;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PemesananAdmin extends Model
 {
@@ -11,11 +12,6 @@ class PemesananAdmin extends Model
 
     protected $guarded = ['id'];
     protected $table = 'pemesanan_admin';
-
-    // public function pemesanan_admin_detail()
-    // {
-    //     return $this->hasMany(PemesananAdminDetail::class,'pemesanan_admin_id','id');
-    // }
 
     public function data_barang()
     {

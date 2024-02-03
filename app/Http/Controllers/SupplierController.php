@@ -42,10 +42,11 @@ class SupplierController extends Controller
      */
     public function update(Request $request,$id)
     {
-        // mengambil semua request
-        $data = $request->all();
         // mengambil user berdasarkan id
         $user = User::findOrFail($id);
+
+        // mengambil semua request
+        $data = $request->all();
 
         $dataUser = [
             'username' => $data['username'],

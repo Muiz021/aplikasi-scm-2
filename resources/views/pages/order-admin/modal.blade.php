@@ -105,7 +105,7 @@
                                                     class="ml-1">
                                                     {{ Carbon::now()->isoFormat('dddd, DD MMMM YYYY') }}</span></div>
                                             <div class="billed"><span class="fw-bold text-uppercase text-dark">Kode
-                                                    Bayar:</span><span class="ml-1" id="kode_pembayaran"></span></div>
+                                                    Bayar:</span><span class="ml-1"></span></div>
                                         </div>
                                         <div class="col-md-6 text-right mt-3">
                                             <h4 class="text-danger mb-0 text-uppercase">Supplier</h4>
@@ -133,29 +133,6 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {{-- @php
-                                                        $total = 0;
-                                                    @endphp
-                                                    @forelse ($data->pemesanan_admin_detail as $item)
-                                                        <tr>
-                                                            <td>{{ $item->data_barang->nama_barang }}</td>
-                                                            <td>{{ $item->jumlah }}</td>
-                                                            <td>Rp.{{ number_format($item->harga, 0, ',', '.') }},00
-                                                            </td>
-                                                            <td>Rp.{{ number_format($item->harga * $item->jumlah, 0, ',', '.') }},00
-                                                            </td>
-                                                        </tr>
-                                                        @php
-                                                            $total += $item->harga * $item->jumlah;
-                                                        @endphp
-                                                    @empty
-                                                    @endforelse
-                                                    <tr>
-                                                        <th colspan="3">Total</th>
-                                                        <th>
-                                                            Rp.{{ number_format($total, 0, ',', '.') }},00</th>
-                                                    </tr> --}}
-
                                                     <tr>
                                                         <td>{{ $data->data_barang->nama_barang }}</td>
                                                         <td>{{ $data->jumlah }}</td>
@@ -170,7 +147,7 @@
                                         @csrf
                                         <input type="hidden" name="tanggal"
                                             value="{{ Carbon::now()->format('Y-m-d') }}">
-                                        <input type="hidden" name="kode_bayar" id="kode_bayar">
+                                        <input type="hidden" name="kode_pembayaran" id="kode_bayar">
                                         <input type="hidden" name="pemesanan_admin_id" id="pemesanan_admin_id">
                                         <input type="hidden" name="metode_pembayaran" id="metode_bayar">
 

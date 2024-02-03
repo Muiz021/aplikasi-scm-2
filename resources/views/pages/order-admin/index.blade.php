@@ -64,31 +64,6 @@
         @include('pages.order-admin.modal')
     </div>
     @push('script')
-        {{-- value kode pembayaran --}}
-        <script>
-            $(document).ready(function() {
-                // Ambil count kode_barang saat halaman dimuat
-                $.get('/admin/data-transaksi/get_kode_pembayaran', function(data) {
-
-                    // Fungsi untuk menghitung jumlah elemen dalam array
-                    function countArrayElements(array) {
-                        return array.length;
-                    }
-                    var jumlah_data = countArrayElements(data.pembayaran);
-
-                    if (data.jp > 0) {
-                        if (jumlah_data === data.jp) {
-                            $('#kode_pembayaran').text('KB' + (data.jp + 2).toString().padStart(3, '0'));
-                        } else {
-                            $('#kode_pembayaran').text('KB' + (data.jp + 1).toString().padStart(3, '0'));
-                        }
-                    } else {
-                        $('#kode_pembayaran').text('KB' + '001');
-                    }
-                });
-            });
-        </script>
-        {{-- end value kode pembayaran --}}
 
         {{-- store pembayaran --}}
         <script>
@@ -101,22 +76,7 @@
                 // Ambil count kode_barang saat halaman dimuat
                 $.get('/admin/data-transaksi/get_kode_pembayaran', function(data) {
 
-                    // Fungsi untuk menghitung jumlah elemen dalam array
-                    function countArrayElements(array) {
-                        return array.length;
-                    }
-
-                    var jumlah_data = countArrayElements(data.pembayaran);
-
-                    if (data.jp > 0) {
-                        if (jumlah_data === data.jp) {
-                            $('#kode_bayar').val('KB' + (data.jp + 2).toString().padStart(3, '0'));
-                        } else {
-                            $('#kode_bayar').val('KB' + (data.jp + 1).toString().padStart(3, '0'));
-                        }
-                    } else {
-                        $('#kode_bayar').val('KB' + '001');
-                    }
+                    $('#kode_bayar').val(data.kode_pembayaran);
 
                     // mengambil value metode pembayaran
                     $('#metode_pembayaran').change(function() {
@@ -129,7 +89,6 @@
                         $('#metode_pembayaran').trigger('change');
                         // Mendapatkan value metode_pembayaran dari input hidden
                         var metode_pembayaran = $('#metode_bayar').val();
-
 
                         $.ajax({
                             url: '{{ route('pembayaran.store') }}',

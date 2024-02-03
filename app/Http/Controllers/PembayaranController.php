@@ -29,10 +29,15 @@ class PembayaranController extends Controller
     }
     public function get_kode_pembayaran()
     {
-        $pembayaran = Pembayaran::get();
-        $jumlah_pembayaran = Pembayaran::count();
+        $latest_pembayaran = Pembayaran::latest('kode_pembayaran')->first();
+        if ($latest_pembayaran) {
+            $angkaData = intval(preg_replace('/[^0-9]/', '', $latest_pembayaran->kode_pembayaran));
+            $kode_pembayaran = 'KPA' . str_pad($angkaData + 1, 3, '0', STR_PAD_LEFT);
+        } else {
+            $kode_pembayaran = 'KPA001';
+        }
 
-        return Response::json(['pembayaran' => $pembayaran, 'jp' => $jumlah_pembayaran], 200);
+        return response()->json(['kode_pembayaran' => $kode_pembayaran], 200);
     }
 
     public function store(Request $request)
@@ -57,7 +62,6 @@ class PembayaranController extends Controller
         $data['total'] = $pemesanan_admin->total;
         $data['nama'] = 'admin';
         $data['status'] = 'proses';
-        $data['kode_pembayaran'] = $data['kode_bayar'];
 
         $pembayaran = Pembayaran::create($data);
 
@@ -67,9 +71,9 @@ class PembayaranController extends Controller
 
         $wa = $pemesanan_admin->supplier->nomor_ponsel;
         if ($pembayaran->metode_pembayaran == 'transfer') {
-            $message = "Admin sedang memesan barang pada kamu dengan kode pemesanan " . $pemesanan_admin->kode_pemesanan . " dan menggunakan metode pembayaran" . $pembayaran->metode_pembayaran . " silahkan kirim nomor rekening kamu ke whatsapps admin(0813123123)";
+            $message = "Admin sedang memesan barang pada kamu dengan kode pemesanan " . $pemesanan_admin->kode_pemesanan . " dan menggunakan metode pembayaran " . $pembayaran->metode_pembayaran . " silahkan kirim nomor rekening kamu ke whatsapps admin(0813123123)";
         } else {
-            $message = "Admin sedang memesan barang pada kamu dengan kode pemesanan " . $pemesanan_admin->kode_pemesanan . " dan menggunakan metode pembayaran" . $pembayaran->metode_pembayaran . " silahkan hubungi whatsapps admin(0813123123) untuk pembayaran yang lebih detail";
+            $message = "Admin sedang memesan barang pada kamu dengan kode pemesanan " . $pemesanan_admin->kode_pemesanan . " dan menggunakan metode pembayaran " . $pembayaran->metode_pembayaran . " silahkan hubungi whatsapps admin(0813123123) untuk pembayaran yang lebih detail";
         }
 
         $body = [

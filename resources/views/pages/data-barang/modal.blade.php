@@ -128,10 +128,8 @@
                         </div>
                         <div class="mb-3">
                             <div class="form-floating">
-                                <div class="form-floating">
-                                    <textarea class="form-control" name="deskripsi"  placeholder="masukan deskripsi barang" style="height: 150px;">{{$data->deskripsi}}</textarea>
-                                    <label for="floatingTextarea">Deskripsi barang</label>
-                                </div>
+                                <textarea class="form-control" name="deskripsi"  placeholder="masukan deskripsi barang" style="height: 150px;">{{$data->deskripsi}}</textarea>
+                                <label for="floatingTextarea">Deskripsi barang</label>
                             </div>
                         </div>
                         <div class="mb-3">

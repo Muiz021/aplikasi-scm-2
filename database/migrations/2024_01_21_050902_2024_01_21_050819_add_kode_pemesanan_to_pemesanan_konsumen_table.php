@@ -14,7 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::table('pemesanan_konsumen', function (Blueprint $table) {
-
             $table->string('kode_pemesanan')->nullable()->default(false)->after('barang_masuk_id');
         });
     }

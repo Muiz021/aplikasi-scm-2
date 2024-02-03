@@ -32,6 +32,7 @@
 </head>
 
 <body>
+    @include('sweetalert::alert')
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
         <div id="spinner"
@@ -54,19 +55,19 @@
                                 <h3>Registrasi Pengguna</h3>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" name="username" class="form-control" placeholder="username">
+                                <input type="text" name="username" class="form-control" placeholder="username" value="{{old('username')}}" required>
                                 <label>Username</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" name="email" class="form-control" placeholder="email">
+                                <input type="text" name="email" class="form-control" placeholder="email" value="{{old('email')}}" required>
                                 <label>Email</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" name="nama" class="form-control" placeholder="nama">
+                                <input type="text" name="nama" class="form-control" placeholder="nama" value="{{old('nama')}}" required>
                                 <label>Nama</label>
                             </div>
                             <div class="form-floating mb-4">
-                                <input type="password" name="password" class="form-control" placeholder="password">
+                                <input type="password" name="password" class="form-control" placeholder="password" required>
                                 <label>Password</label>
                             </div>
                             <input type="hidden" name="kode_konsumen" id="kode_konsumen">
@@ -99,19 +100,7 @@
         $(document).ready(function() {
             // Ambil count kode_konsumen saat halaman dimuat
             $.get('/kode_konsumen', function(data) {
-                // Fungsi untuk menghitung jumlah elemen dalam array
-                function countArrayElements(array) {
-                    return array.length;
-                }
-
-                console.log(data);
-                var jumlah_data = countArrayElements(data.konsumen);
-
-                if (data.countKonsumen > 0) {
-                    $('#kode_konsumen').val('KK' + (data.countKonsumen + 1));
-                } else {
-                    $('#kode_konsumen').val('KK' + 1);
-                }
+                $('#kode_konsumen').val(data.kode_konsumen);
             });
         });
     </script>

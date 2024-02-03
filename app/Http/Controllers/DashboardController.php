@@ -11,6 +11,7 @@ use App\Models\MerekBarang;
 use App\Models\BarangKeluar;
 use App\Models\PemesananAdmin;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class DashboardController extends Controller
 {
@@ -43,6 +44,9 @@ class DashboardController extends Controller
         $jumlah_merek_barang = MerekBarang::count();
         $jumlah_data_barang = DataBarang::count();
 
+        if ($user->supplier->nama == null || $user->supplier->nomor_ponsel == null || $user->supplier->alamat == null || $user->supplier->email == null) {
+            Alert::info("Info", "Silahkan lengkapi data diri terlebih dahulu");
+        }
         return view('pages.dashboard.dashboard-supplier',compact('jumlah_jenis_barang','jumlah_merek_barang','jumlah_data_barang','user'));
     }
 

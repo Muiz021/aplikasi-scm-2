@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pembayaran_konsumens', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('suppliers', function (Blueprint $table) {
+            $table->string('email')->nullable()->after('nomor_ponsel');
         });
     }
 
@@ -26,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pembayaran_konsumens');
+        Schema::table('suppliers', function (Blueprint $table) {
+            $table->dropColumn('email');
+        });
     }
 };

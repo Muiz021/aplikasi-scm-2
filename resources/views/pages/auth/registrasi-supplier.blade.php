@@ -32,6 +32,7 @@
 </head>
 
 <body>
+    @include('sweetalert::alert')
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -53,23 +54,23 @@
                                 <h3>Registrasi Supplier</h3>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" name="username" class="form-control" placeholder="username" value="{{old('username')}}">
+                                <input type="text" name="username" class="form-control" placeholder="username" value="{{old('username')}}" required>
                                 <label>Username</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" name="email" class="form-control" placeholder="email" value="{{old('email')}}">
+                                <input type="text" name="email" class="form-control" placeholder="email" value="{{old('email')}}" required>
                                 <label>Email</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" name="nama" class="form-control" placeholder="nama" value="{{old('nama')}}">
+                                <input type="text" name="nama" class="form-control" placeholder="nama" value="{{old('nama')}}" required>
                                 <label>Nama</label>
                             </div>
                             <div class="form-floating mb-4">
-                                <input type="password" name="password" class="form-control" placeholder="password">
+                                <input type="password" name="password" class="form-control" placeholder="password" required>
                                 <label>Password</label>
                             </div>
                             <input type="hidden" name="kode_supplier" id="kode_supplier">
-                            
+
                             <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Kirim</button>
                             <p class="text-center mb-0">Sudah memiliki akun? <a href="{{route('login')}}">Login</a></p>
                         </form>
@@ -98,22 +99,7 @@
         $(document).ready(function() {
             // Ambil count kode_barang saat halaman dimuat
             $.get('/kode_supplier', function(data) {
-                // Fungsi untuk menghitung jumlah elemen dalam array
-                function countArrayElements(array) {
-                    return array.length;
-                }
-                console.log(data);
-                var jumlah_data = countArrayElements(data.supplier);
-
-                if (data.countSupplier > 0) {
-                    if (jumlah_data === data.countSupplier) {
-                        $('#kode_supplier').val('KS' + (data.countSupplier + 2));
-                    }else{
-                        $('#kode_supplier').val('KS' + (data.countSupplier + 1));
-                    }
-                }else{
-                    $('#kode_supplier').val('KS' + 1);
-                }
+                $('#kode_supplier').val(data.kode_supplier);
             });
         });
     </script>

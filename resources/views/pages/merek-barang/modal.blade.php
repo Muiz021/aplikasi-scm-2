@@ -10,9 +10,11 @@
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Nama</label>
-                        <input type="text" class="form-control" placeholder="Masukan nama merek barang"
+                        <div class="form-floating">
+                            <input type="text" class="form-control" placeholder="Masukan nama merek barang"
                             name="nama" value="{{ old('nama') }}">
+                            <label for="exampleInputEmail1" class="form-label">Nama</label>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -39,9 +41,11 @@
                 @method('put')
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Nama</label>
-                        <input type="text" class="form-control" placeholder="Masukan nama jenis barang"
+                        <div class="form-floating">
+                            <input type="text" class="form-control" placeholder="Masukan nama jenis barang"
                             name="nama" value="{{ $data->nama }}">
+                            <label for="exampleInputEmail1" class="form-label">Nama</label>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

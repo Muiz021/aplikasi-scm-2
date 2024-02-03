@@ -25,7 +25,7 @@
                                     <tr>
                                         <td>{{ $supplier->firstItem() + $key }}</td>
                                         <td>{{ $item->nama }}</td>
-                                        <td>{{ Str::limit($item->lokasi, 50) }}</td>
+                                        <td>{{ Str::limit($item->alamat, 50) }}</td>
                                         <td>
                                         <div class="d-flex">
                                             <a href="{{route('pemesanan-barang.list-item',$item->id)}}" class="btn btn-sm btn-info text-white me-2" >Show</a>

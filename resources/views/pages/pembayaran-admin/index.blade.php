@@ -30,10 +30,12 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                    dd($pemesanan_admin);
+                                @endphp
                                 @foreach ($pemesanan_admin as $key => $item)
-
-                                {{dd($item->pembayaran)}}
                                     <tr>
+
                                         <td>{{ $pemesanan_admin->firstItem() + $key }}</td>
                                         <td>{{ Carbon::parse($item->waktu_pemesanan)->isoFormat('dddd, DD MMMM YYYY') }}
                                         </td>

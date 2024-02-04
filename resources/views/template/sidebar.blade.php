@@ -10,22 +10,23 @@
             {{ route('dashboard.konsumen') }} @endif"
             class="navbar-brand mx-4 mb-3">
             @if (Auth::user()->roles == 'admin')
-            <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>
+                <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>
             @elseif (Auth::user()->roles == 'supplier')
-            <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHSUP</h3>
+                <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHSUP</h3>
             @else
-            <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHKOS</h3>
+                <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHKOS</h3>
             @endif
         </a>
         <div class="d-flex align-items-center ms-4 mb-4">
             <div class="position-relative">
                 @if (Auth::user()->roles == 'konsumen')
-                <img class="rounded-circle me-lg-2" src="{{ asset(Str::replace(url('/') . '/img/profile/', '', '/img/profile/' . Auth::user()->konsumen->gambar)) }}"
-                    style="width: 40px; height: 40px;">
-            @else
-                <img class="rounded-circle me-lg-2" src="{{ asset('img/user.jpg') }}" alt=""
-                    style="width: 40px; height: 40px;">
-            @endif
+                    <img class="rounded-circle me-lg-2"
+                        src="{{ asset(Str::replace(url('/') . '/img/profile/', '', '/img/profile/' . Auth::user()->konsumen->gambar)) }}"
+                        style="width: 40px; height: 40px;">
+                @else
+                    <img class="rounded-circle me-lg-2" src="{{ asset('img/user.jpg') }}" alt=""
+                        style="width: 40px; height: 40px;">
+                @endif
                 <div
                     class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
                 </div>
@@ -53,7 +54,8 @@
                 <div class="nav-item dropdown">
                     <a href="#"
                         class="nav-link {{ request()->is('admin/master/data_barang', 'admin/master/jenis_barang', 'admin/master/merek_barang') ? 'active' : '' }} dropdown-toggle show"
-                        data-bs-toggle="dropdown" aria-expanded="true"><i class="fa fa-th me-2"></i></i>{{Auth::user()->roles == 'admin' ? 'Barang Supplier' : 'Master'}}</a>
+                        data-bs-toggle="dropdown" aria-expanded="true"><i
+                            class="fa fa-th me-2"></i></i>{{ Auth::user()->roles == 'admin' ? 'Barang Supplier' : 'Master' }}</a>
                     <div class="dropdown-menu bg-transparent border-0 show" data-bs-popper="none">
                         <a href="{{ route('admin.data_barang.index') }}"
                             class="dropdown-item {{ request()->is('admin/master/data_barang*') ? 'active' : '' }}">Data
@@ -78,7 +80,7 @@
                         <a href="{{ route('pembayaran.index') }}"
                             class="dropdown-item {{ request()->is('admin/data-transaksi/pembayaran*') ? 'active' : '' }}">Pembayaran
                             ke supplier</a>
-                        <a href="{{route('barang_masuk.index')}}" class="dropdown-item">Transaksi barang masuk</a>
+                        <a href="{{ route('barang_masuk.index') }}" class="dropdown-item">Transaksi barang masuk</a>
                         <a href="{{ route('barang.keluar.admin') }}"
                             class="dropdown-item {{ request()->is('admin/pengguna/barang-keluar*') ? 'active' : '' }}">Transaksi
                             Barang
@@ -126,10 +128,10 @@
                             Barang</a>
                     </div>
                 </div>
-                @if (PemesananAdmin::get()->isEmpty())
-                <a href="{{ route('admin.pembayaran.index') }}"
-                class="nav-item nav-link {{ request()->is('supplier/pembayaran*') ? 'active' : '' }}"><i
-                    class="fas fa-dollar-sign me-2"></i>Pembayaran</a>
+                @if (!PemesananAdmin::get()->isEmpty())
+                    <a href="{{ route('admin.pembayaran.index') }}"
+                        class="nav-item nav-link {{ request()->is('supplier/pembayaran*') ? 'active' : '' }}"><i
+                            class="fas fa-dollar-sign me-2"></i>Pembayaran</a>
                 @endif
             @endif
             {{-- end roles supplier --}}

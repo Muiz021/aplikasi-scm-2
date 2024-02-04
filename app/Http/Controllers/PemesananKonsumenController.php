@@ -10,6 +10,7 @@ use App\Models\PemesananKonsumen;
 use App\Models\DataBarang;
 use App\Models\PemesananKonsumenDetail;
 use App\Models\User;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Response;
 
 class PemesananKonsumenController extends Controller
@@ -21,9 +22,25 @@ class PemesananKonsumenController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        $konsumen = $user->konsumen->id;
         $pemesanan_konsumen =
-            PemesananKonsumen::where('status', null)->paginate(10);
+            PemesananKonsumen::where('status', null)->where('konsumen_id', $konsumen)->paginate(10);
         return view('pages.order-konsumen.index', compact('pemesanan_konsumen'));
+    }
+
+    public function list_items()
+    {
+
+        $data_barang = BarangMasuk::all();
+
+        return view('pages.order-konsumen.list-item', compact('data_barang'));
+    }
+
+    public function order($id)
+    {
+        $data_barang = BarangMasuk::find($id);
+        return view('pages.order-konsumen.detail-item', compact('data_barang'));
     }
 
     /**
@@ -45,51 +62,44 @@ class PemesananKonsumenController extends Controller
      */
     public function store(Request $request)
     {
+        // mengambil semua data
         $data = $request->all();
         $today = Carbon::now()->format('Y-m-d');
         $user = Auth::user();
-        $konsumen = $user->konsumen;
-        $konsumen_id = $konsumen->id;
+        $konsumen = $user->konsumen->id;
+        $data_barang = BarangMasuk::find($data['id']);
 
-        // Validation rules
-        $rules = [
-            'barang_masuk_id' => 'required',
-            'harga' => 'required|numeric',
-            'nama_barang' => 'required',
-            'jumlah' => 'required|numeric|min:1', // Make sure it's a positive number
-            'kode_pesan' => 'required',
-        ];
-
-        // Custom error messages
-        $messages = [
-            'jumlah.min' => 'The quantity must be at least 1.',
-        ];
-
-        // Validate the request
-        $request->validate($rules, $messages);
-
-        // Check if the quantity is greater than available stock
-        $stokBarang = BarangMasuk::find($data['barang_masuk_id'])->jumlah;
-        if ($data['jumlah'] > $stokBarang) {
-            return redirect()->back()->with('error', 'Error: Stok barang tidak cukup.')->withInput();
+        $latest_pemesanan = PemesananKonsumen::latest('kode_pemesanan')->first();
+        if ($latest_pemesanan) {
+            $angkaData = intval(preg_replace('/[^0-9]/', '', $latest_pemesanan->kode_pemesanan));
+            $kode_pemesanan = 'KPK' . str_pad($angkaData + 1, 3, '0', STR_PAD_LEFT);
+        } else {
+            $kode_pemesanan = 'KPK001';
         }
 
-        // Calculate total
-        $total = $data['harga'] * $data['jumlah'];
+        $total = $data['jumlah'] * $data_barang->data_barang->harga_barang;
 
-        // Create the record
-        PemesananKonsumen::create([
-            'barang_masuk_id' => $data['barang_masuk_id'],
-            'harga_barang' => $data['harga'],
-            'nama_barang' => $data['nama_barang'],
-            'konsumen_id' => $konsumen_id,
-            'waktu_pemesanan' => $today,
-            'kode_pemesanan' => $data['kode_pesan'],
-            'jumlah' => $data['jumlah'],
-            'total' => $total
-        ]);
+        // validasi stok_barang apabila kosong
+        if ($data_barang->jumlah == 0) {
+            Alert::info("Peringatan", "stok barang tidak ada");
+            return redirect()->back();
+        } else {
 
-        return redirect()->route('pemesanan-barang-konsumen.index');
+            // membuat pemesanan admin
+            PemesananKonsumen::create([
+                'barang_masuk_id' => $data_barang->id,
+                'nama_barang' => $data_barang->data_barang->harga_barang,
+                'harga_barang' => $data_barang->data_barang->stok_barang,
+                'waktu_pemesanan' => $today,
+                'kode_pemesanan' => $kode_pemesanan,
+                'jumlah' => $data['jumlah'],
+                'konsumen_id' => $konsumen,
+                'total' => $total
+            ]);
+
+            Alert::success("Sukses", "berhasil menambah pemesanan konsumen");
+            return redirect()->route('pemesanan-barang-konsumen.index');
+        }
     }
 
 

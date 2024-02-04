@@ -14,7 +14,7 @@
                 <div class="bg-light rounded h-100 p-4">
                     <h6 class="mb-4">Pemesanan Barang</h6>
                     <div class="text-end py-2 pt-md-0">
-                        <a href="{{ route('pemesanan-barang-konsumen.create') }}" class="btn btn-primary"><i
+                        <a href="{{ route('pemesanan-barang-konsumen.list') }}" class="btn btn-primary"><i
                                 class="bi bi-plus"></i>
                             Tambah Pemesanan Barang</a>
                     </div>

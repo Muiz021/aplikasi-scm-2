@@ -32,16 +32,15 @@ class PemesananAdminController extends Controller
     public function list_items($id)
     {
         $supplier = Supplier::find($id);
-        $data_barang = DataBarang::where('supplier_id',$supplier->id)->get();
+        $data_barang = DataBarang::where('supplier_id', $supplier->id)->get();
 
-        return view('pages.order-admin.list-item',compact('data_barang'));
-
+        return view('pages.order-admin.list-item', compact('data_barang'));
     }
 
     public function order($id)
     {
         $data_barang = DataBarang::find($id);
-        return view('pages.order-admin.detail-item',compact('data_barang'));
+        return view('pages.order-admin.detail-item', compact('data_barang'));
     }
 
     public function store(Request $request)

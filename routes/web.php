@@ -71,14 +71,14 @@ Route::prefix('admin')->middleware(['auth', 'OnlyAdmin'])->group(function () {
         Route::resource('pemesanan-barang', PemesananAdminController::class);
         Route::get('get_supplier_data_barang', [PemesananAdminController::class, 'get_supplier_data_barang'])->name('get_supplier_data_barang');
         Route::get('get_pemesanan_admin', [PemesananAdminController::class, 'get_pemesanan_admin'])->name('get_pemesanan_admin');
-        Route::get('list-item/{id}',[PemesananAdminController::class,'list_items'])->name('pemesanan-barang.list-item');
-        Route::get('order/{id}',[PemesananAdminController::class,'order'])->name('pemesanan-barang.order');
+        Route::get('list-item/{id}', [PemesananAdminController::class, 'list_items'])->name('pemesanan-barang.list-item');
+        Route::get('order/{id}', [PemesananAdminController::class, 'order'])->name('pemesanan-barang.order');
 
         // detail pemesanan barang ke supplier
         Route::get('data-barang/{id}', [PemesananAdminController::class, 'get_data_barang_per_id'])->name('pemesanan_barang.get_per_id');
 
         // barang masuk
-        Route::resource('barang_masuk', BarangMasukController::class)->except('create','store', 'edit', 'show');
+        Route::resource('barang_masuk', BarangMasukController::class)->except('create', 'store', 'edit', 'show');
         // pembayaran
         Route::resource('pembayaran', PembayaranController::class);
         Route::get('get_kode_pembayaran', [PembayaranController::class, 'get_kode_pembayaran'])->name('get_kode_pembayaran');
@@ -153,9 +153,11 @@ Route::prefix('konsumen')->middleware(['auth', 'OnlyKosumen'])->group(function (
     Route::put('update_status_barang_keluar/{id}', [BarangKeluarController::class, 'update_status'])->name('update_status_barang_keluar');
     Route::prefix('data-transaksi')->group(function () {
         Route::resource('pemesanan-barang-konsumen', PemesananKonsumenController::class);
-
+        Route::get('list-barang', [PemesananKonsumenController::class, 'get_barang_masuk_by_supplier'])->name('get_barang_masuk_by_supplier');
         // Perbaikan nama route dan controller method
-        Route::get('get_barang_masuk_by_supplier', [PemesananKonsumenController::class, 'get_barang_masuk_by_supplier'])->name('get_barang_masuk_by_supplier');
+        Route::get('list-barang', [PemesananKonsumenController::class, 'list_items'])->name('pemesanan-barang-konsumen.list');
+
+        Route::get('order/{id}', [PemesananKonsumenController::class, 'order'])->name('pemesanan-barang-konsumen.order');
 
         Route::get('get_pemesanan_konsumen', [PemesananKonsumenController::class, 'get_pemesanan_konsumen'])->name('get_pemesanan_konsumen');
 

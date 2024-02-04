@@ -30,9 +30,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php
-                                    dd($pemesanan_admin);
-                                @endphp
+                            
                                 @foreach ($pemesanan_admin as $key => $item)
                                     <tr>
 

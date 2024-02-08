@@ -157,10 +157,9 @@ Route::prefix('konsumen')->middleware(['auth', 'OnlyKosumen'])->group(function (
         // Perbaikan nama route dan controller method
         Route::get('get_barang_masuk_by_supplier', [PemesananKonsumenController::class, 'get_barang_masuk_by_supplier'])->name('get_barang_masuk_by_supplier');
 
-        Route::get('get_pemesanan_konsumen', [PemesananKonsumenController::class, 'get_pemesanan_konsumen'])->name('get_pemesanan_konsumen');
-
         Route::get('get_barang_masuk', [PemesananKonsumenController::class, 'getBarangMasuk'])->name('get_barang_masuk');
         Route::get('barang-masuk/{id}', [PemesananKonsumenController::class, 'get_barang_masuk_per_id']);
+        Route::get('detail_item/{id}',[PemesananKonsumenController::class,'detail_item'])->name('detail_item.konsumen');
 
         Route::resource('pembayaran-konsumen', PembayaranKonsumenController::class);
         Route::get('get_kode_pembayaran', [PembayaranKonsumenController::class, 'get_kode_pembayaran'])->name('konsumen.get_kode_pembayaran');

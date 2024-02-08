@@ -19,6 +19,6 @@ class BarangKeluar extends Model
 
     public function konsumen()
     {
-        return $this->belongsTo(Konsumen::class, 'konsumen_id');
+        return $this->belongsTo(Konsumen::class);
     }
 }

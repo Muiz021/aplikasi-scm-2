@@ -32,9 +32,9 @@ class PembayaranController extends Controller
         $latest_pembayaran = Pembayaran::latest('kode_pembayaran')->first();
         if ($latest_pembayaran) {
             $angkaData = intval(preg_replace('/[^0-9]/', '', $latest_pembayaran->kode_pembayaran));
-            $kode_pembayaran = 'KPA' . str_pad($angkaData + 1, 3, '0', STR_PAD_LEFT);
+            $kode_pembayaran = 'KPBA' . str_pad($angkaData + 1, 3, '0', STR_PAD_LEFT);
         } else {
-            $kode_pembayaran = 'KPA001';
+            $kode_pembayaran = 'KPBA001';
         }
 
         return response()->json(['kode_pembayaran' => $kode_pembayaran], 200);
@@ -102,6 +102,11 @@ class PembayaranController extends Controller
         );
 
         $pembayaran = Pembayaran::findOrFail($id);
+        $data_barang = DataBarang::where('id',$pembayaran->pemesanan_admin->data_barang->id)->first();
+        if ($data_barang->stok_barang < $pembayaran->pemesanan_admin->jumlah) {
+            Alert::error("Gagal", "Stok yang dimiliki supplier tidak cukup");
+            return redirect()->back();
+        }
         $data = $request->all();
 
         $gambar = $request->file('gambar');
@@ -114,8 +119,7 @@ class PembayaranController extends Controller
 
         $pembayaran->update($data);
 
-        $data_barang = DataBarang::where('id',$pembayaran->pemesanan_admin->data_barang->id)->first();
-        $stok_barang_baru = $pembayaran->pemesanan_admin->jumlah - $data_barang->stok_barang;
+        $stok_barang_baru = $data_barang->stok_barang - $pembayaran->pemesanan_admin->jumlah;
         $data_barang->update([
             'stok_barang' => $stok_barang_baru
         ]);
@@ -141,6 +145,7 @@ class PembayaranController extends Controller
         Alert::success("Sukses", "berhasil mengupload struk pembayaran");
         return redirect()->back();
     }
+
     public function update_status_pembayaran(Request $request, $id)
     {
         // mengambil pemesanan admin dan pembayaran
@@ -189,6 +194,15 @@ class PembayaranController extends Controller
 
 
         Alert::success("Sukses", "berhasil memperbarui status pembayaran");
+        return redirect()->back();
+    }
+
+    public function destroy($id)
+    {
+        $pembayaran = Pembayaran::findOrFail($id);
+        $pembayaran->delete();
+
+        Alert::success("Success", "Kamu berhasi menghapus struk pembayaran");
         return redirect()->back();
     }
 }

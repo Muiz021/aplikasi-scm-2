@@ -31,8 +31,6 @@
                             </thead>
                             <tbody>
                                 @foreach ($pemesanan_admin as $key => $item)
-
-                                {{dd($item->pembayaran)}}
                                     <tr>
                                         <td>{{ $pemesanan_admin->firstItem() + $key }}</td>
                                         <td>{{ Carbon::parse($item->waktu_pemesanan)->isoFormat('dddd, DD MMMM YYYY') }}
@@ -49,10 +47,10 @@
                                             <div class="d-flex">
                                                 <button class="btn btn-sm btn-info text-white me-2" data-bs-toggle="modal"
                                                     data-bs-target="#show-struk-{{ $item->id }}">Show</button>
-                                                @if (Auth::user()->roles == 'admin')
+                                                {{-- @if (Auth::user()->roles == 'admin')
                                                     <button class="btn btn-sm btn-danger me-2" data-bs-toggle="modal"
                                                         data-bs-target="#delete-pemesanan-barang-{{ $item->id }}">Hapus</button>
-                                                @endif
+                                                @endif --}}
                                                 @if (Auth::user()->roles == 'admin' && $item->pembayaran->gambar == null)
                                                     <button class="btn btn-sm btn-info text-white" data-bs-toggle="modal"
                                                         data-bs-target="#upload-struk-{{ $item->id }}">Upload

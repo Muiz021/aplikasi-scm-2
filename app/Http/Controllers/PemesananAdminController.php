@@ -55,9 +55,9 @@ class PemesananAdminController extends Controller
         $latest_pemesanan = PemesananAdmin::latest('kode_pemesanan')->first();
         if ($latest_pemesanan) {
             $angkaData = intval(preg_replace('/[^0-9]/', '', $latest_pemesanan->kode_pemesanan));
-            $kode_pemesanan = 'KPA' . str_pad($angkaData + 1, 3, '0', STR_PAD_LEFT);
+            $kode_pemesanan = 'KPSA' . str_pad($angkaData + 1, 3, '0', STR_PAD_LEFT);
         } else {
-            $kode_pemesanan = 'KPA001';
+            $kode_pemesanan = 'KPSA001';
         }
 
         $total = $data['jumlah'] * $data_barang->harga_barang;

@@ -64,29 +64,6 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {{-- @php
-                                                        $total = 0;
-                                                    @endphp
-                                                    @forelse ($data->pemesanan_admin_detail as $item)
-                                                        <tr>
-                                                            <td>{{ $item->data_barang->nama_barang }}</td>
-                                                            <td>{{ $item->jumlah }}</td>
-                                                            <td>Rp.{{ number_format($item->harga, 0, ',', '.') }},00
-                                                            </td>
-                                                            <td>Rp.{{ number_format($item->harga * $item->jumlah, 0, ',', '.') }},00
-                                                            </td>
-                                                        </tr>
-                                                        @php
-                                                            $total += $item->harga * $item->jumlah;
-                                                        @endphp
-                                                    @empty
-                                                    @endforelse
-                                                    <tr>
-                                                        <th colspan="3">Total</th>
-                                                        <th>
-                                                            Rp.{{ number_format($total, 0, ',', '.') }},00</th>
-                                                    </tr> --}}
-
                                                     <tr>
                                                         <td>{{ $data->data_barang->nama_barang }}</td>
                                                         <td>{{ $data->jumlah }}</td>
@@ -184,7 +161,7 @@
 
                                     <div class="upload-input text-center my-3 w-100">
                                         <h4 for="gambar" class="w-100 text-uppercase">Struk Pembayaran</h4>
-                                        <img src="{{asset(Str::replace(url('/') . '/img/struk/', '', '/img/struk/' . $data->pembayaran->gambar))}}" alt="" class="w-100" >
+                                        <img src="{{asset(Str::replace(url('/') . '/img/struk/', '', '/img/struk/' . $data->pembayaran->gambar))}}" width="50%" style="aspect-ratio:9/16;object-fit:cover;">
                                     </div>
 
                                     <form action="{{ route('update_status_pembayaran', $data->id) }}"
@@ -276,7 +253,7 @@
                                     </div>
                                     <div class="upload-input text-center my-3 w-100">
                                         <h4 for="gambar" class="w-100 text-uppercase">Struk Pembayaran</h4>
-                                        <img src="{{asset(Str::replace(url('/') . '/img/struk/', '', '/img/struk/' . $data->pembayaran->gambar))}}" alt="" class="w-100" >
+                                        <img src="{{asset(Str::replace(url('/') . '/img/struk/', '', '/img/struk/' . $data->pembayaran->gambar))}}" width="50%" style="aspect-ratio:9/16;object-fit:cover;">
                                     </div>
                                     <div class="text-right mb-3">
                                         <button  type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -291,3 +268,33 @@
     </div>
 @endforeach
 {{-- end show --}}
+
+{{-- delete --}}
+{{-- @foreach ($pemesanan_admin as $data)
+    <div class="modal fade" id="delete-pembayaran-{{ $data->id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Pembayaran Barang</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('pembayaran.destroy', $data->id) }}" method="POST">
+                    @csrf
+                    @method('delete')
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <div class="mb-3">
+                                <p>Apakah kamu ingin menghapus pemesanan barang <b>{{ $data->pembayaran->kode_pemesanan }}</b> ?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Hapus</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endforeach --}}
+{{-- end delete --}}

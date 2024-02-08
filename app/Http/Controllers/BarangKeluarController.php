@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\BarangKeluar;
 use GuzzleHttp\Client;
-use App\Models\User;
-use App\Http\Requests\StoreBarangKeluarRequest;
 use App\Http\Requests\UpdateBarangKeluarRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
@@ -26,6 +24,7 @@ class BarangKeluarController extends Controller
         } else {
             $barang = BarangKeluar::paginate(10);
         }
+        // dd($barang[0]->konsumen->nama);
         return view('pages.barang-keluar.index', compact('barang'));
     }
 
@@ -61,56 +60,7 @@ class BarangKeluarController extends Controller
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreBarangKeluarRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreBarangKeluarRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\BarangKeluar  $barangKeluar
-     * @return \Illuminate\Http\Response
-     */
-    public function show(BarangKeluar $barangKeluar)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\BarangKeluar  $barangKeluar
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(BarangKeluar $barangKeluar)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateBarangKeluarRequest  $request
-     * @param  \App\Models\BarangKeluar  $barangKeluar
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateBarangKeluarRequest $request, BarangKeluar $barangKeluar)
     {
         //

@@ -24,6 +24,6 @@ class Konsumen extends Model
 
     public function barangKeluar()
     {
-        return $this->hasMany(BarangKeluar::class, 'konsumen_id');
+        return $this->hasMany(BarangKeluar::class);
     }
 }

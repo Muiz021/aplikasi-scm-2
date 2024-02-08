@@ -156,7 +156,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-floating">
-                                                <textarea class="form-control" name="deskripsi" placeholder="masukan alamat supplier" style="height: 150px;" required
+                                                <textarea class="form-control" name="alamat" placeholder="masukan alamat supplier" style="height: 150px;" required
                                                     >{{ $user->supplier->alamat }}</textarea>
                                                 <label class="form-label fw-bold">alamat</label>
                                             </div>

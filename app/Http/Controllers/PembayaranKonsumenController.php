@@ -111,7 +111,6 @@ class PembayaranKonsumenController extends Controller
         $nama_pembayaran = $baseURL . '/' . $penempatan_file . Str::slug($pembayaran->kode_pembayaran, '_') . '_' . Carbon::now()->format('YmdHis') . "." . $gambar->getClientOriginalExtension();
         $gambar->move(public_path($penempatan_file), $nama_pembayaran);
 
-
         $data['gambar'] = $nama_pembayaran;
 
         $pembayaran->update($data);
@@ -150,8 +149,6 @@ class PembayaranKonsumenController extends Controller
         return redirect()->back();
     }
 
-
-
     public function update_status_pembayaran(Request $request, $id)
     {
         // mengambil pemesanan konsumen dan pembayaran
@@ -165,15 +162,14 @@ class PembayaranKonsumenController extends Controller
 
         // Membuat data barang keluar
         $item = [
-            "konsumen_id" => $pemesanan_konsumen->supplier_id,
+            "konsumen_id" => $pemesanan_konsumen->konsumen_id,
             "barang_masuk_id" => $pemesanan_konsumen->barang_masuk->id,
-            "kode_barang" => $pemesanan_konsumen->barang_masuk->data_barang->id,
+            "kode_barang" => $pemesanan_konsumen->barang_masuk->data_barang->kode_barang,
             "tanggal_keluar" => Carbon::now()->format('Y-m-d'),
             "jumlah" => $pemesanan_konsumen->jumlah,
             "status" => "perjalanan"
         ];
 
-        // dd($item);
         BarangKeluar::create($item);
 
 

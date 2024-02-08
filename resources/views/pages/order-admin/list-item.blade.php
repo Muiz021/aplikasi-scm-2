@@ -12,11 +12,12 @@
                 @forelse ($data_barang as $item)
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card shadow-sm">
-                        <img src="{{asset(Str::replace(url('/') . '/img/barang/', '', '/img/barang/' . $item->foto_barang))}}" width="100%" alt="">
+                        <img src="{{asset(Str::replace(url('/') . '/img/barang/', '', '/img/barang/' . $item->foto_barang))}}" width="100%" style="aspect-ratio:16/9;object-fit:cover;" alt="">
                         <div class="card-body">
                             <h5 class="card-title">{{$item->nama_barang}}</h5>
-                            <p class="card-text my-0">Rp.{{ number_format($item->harga_barang, 0, ',', '.') }},00</p>
-                            <div class="d-flex justify-content-end">
+                            <p class="card-text text-justify my-2">{{Str::limit($item->deskripsi,100)}}</p>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-danger">Rp.{{ number_format($item->harga_barang, 0, ',', '.') }},00</span>
                                 <a href="{{route('pemesanan-barang.order',$item->id)}}" class="btn btn-sm btn-primary text-white fw-semibold">Pesan</a>
                             </div>
                         </div>

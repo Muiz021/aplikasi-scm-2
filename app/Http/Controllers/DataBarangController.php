@@ -31,11 +31,10 @@ class DataBarangController extends Controller
         } else {
             $data_barang = DataBarang::paginate(10);
         }
-        $total_barang = DataBarang::count();
         $jenis_barang = JenisBarang::get();
         $merek_barang = MerekBarang::get();
 
-        return view('pages.data-barang.index', compact('data_barang', 'total_barang', 'jenis_barang', 'merek_barang'));
+        return view('pages.data-barang.index', compact('data_barang', 'jenis_barang', 'merek_barang'));
     }
 
 

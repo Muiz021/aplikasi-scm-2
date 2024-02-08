@@ -2,23 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BarangMasuk;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\DataBarang;
+use App\Models\BarangMasuk;
 use Illuminate\Http\Request;
 use App\Models\PemesananKonsumen;
-use App\Models\DataBarang;
-use App\Models\PemesananKonsumenDetail;
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PemesananKonsumenController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $pemesanan_konsumen =
@@ -26,119 +21,70 @@ class PemesananKonsumenController extends Controller
         return view('pages.order-konsumen.index', compact('pemesanan_konsumen'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        $barangMasuk = BarangMasuk::where('status', 'sampai')->get();
+        $barangMasuk = BarangMasuk::where('status', 'sampai')->where('jumlah','>','0')->get();
         return view('pages.order-konsumen.create', compact('barangMasuk'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function detail_item($id)
+    {
+        $barangMasuk = BarangMasuk::find($id);
+        return view('pages.order-konsumen.detail-item',compact('barangMasuk'));
+    }
+
     public function store(Request $request)
     {
         $data = $request->all();
+        $barangMasuk = BarangMasuk::where('id', $request->id)->first();
+
         $today = Carbon::now()->format('Y-m-d');
         $user = Auth::user();
         $konsumen = $user->konsumen;
         $konsumen_id = $konsumen->id;
 
-        // Validation rules
-        $rules = [
-            'barang_masuk_id' => 'required',
-            'harga' => 'required|numeric',
-            'nama_barang' => 'required',
-            'jumlah' => 'required|numeric|min:1', // Make sure it's a positive number
-            'kode_pesan' => 'required',
-        ];
+        // Check if 'jumlah' exists in $data
+        if (!isset($data['jumlah'])) {
+            return redirect()->back()->with('error', 'Error: Invalid quantity.')->withInput();
+        }
 
-        // Custom error messages
-        $messages = [
-            'jumlah.min' => 'The quantity must be at least 1.',
-        ];
-
-        // Validate the request
-        $request->validate($rules, $messages);
-
-        // Check if the quantity is greater than available stock
-        $stokBarang = BarangMasuk::find($data['barang_masuk_id'])->jumlah;
-        if ($data['jumlah'] > $stokBarang) {
-            return redirect()->back()->with('error', 'Error: Stok barang tidak cukup.')->withInput();
+        if ($data['jumlah'] > $barangMasuk->jumlah) {
+            return redirect()->back()->with('error', 'Error: Insufficient stock.')->withInput();
         }
 
         // Calculate total
-        $total = $data['harga'] * $data['jumlah'];
+        $total =  $data['jumlah'] * $barangMasuk->data_barang->harga_barang;
+
+        $latest_pemesanankonsumen = PemesananKonsumen::latest('kode_pemesanan')->first();
+        if ($latest_pemesanankonsumen) {
+            $angkaData = intval(preg_replace('/[^0-9]/', '', $latest_pemesanankonsumen->kode_konsumen));
+            $kode_konsumen = 'KPK' . str_pad($angkaData + 1, 3, '0', STR_PAD_LEFT);
+        } else {
+            $kode_konsumen = 'KPK001';
+        }
 
         // Create the record
         PemesananKonsumen::create([
-            'barang_masuk_id' => $data['barang_masuk_id'],
-            'harga_barang' => $data['harga'],
-            'nama_barang' => $data['nama_barang'],
+            'barang_masuk_id' => $barangMasuk->id,
+            'harga_barang' => $barangMasuk->data_barang->harga_barang,
+            'nama_barang' => $barangMasuk->data_barang->nama_barang,
             'konsumen_id' => $konsumen_id,
             'waktu_pemesanan' => $today,
-            'kode_pemesanan' => $data['kode_pesan'],
+            'kode_pemesanan' => $kode_konsumen,
             'jumlah' => $data['jumlah'],
             'total' => $total
         ]);
 
+        Alert::success("Success", "Kamu berhasi membuat pesanan");
         return redirect()->route('pemesanan-barang-konsumen.index');
     }
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $pemesanan_konsumen = PemesananKonsumen::find($id);
-
-
         $pemesanan_konsumen->delete();
 
+        Alert::success("Success", "Kamu berhasi menghapus pesanan");
         return redirect()->back();
     }
 
@@ -158,11 +104,4 @@ class PemesananKonsumenController extends Controller
         }
     }
 
-    public function get_pemesanan_konsumen()
-    {
-        $pemesanan_konsumen = PemesananKonsumen::get();
-        $jumlah_pemesanan_konsumen = PemesananKonsumen::count();
-
-        return Response::json(['jpa' => $jumlah_pemesanan_konsumen, 'pa' => $pemesanan_konsumen], 200);
-    }
 }

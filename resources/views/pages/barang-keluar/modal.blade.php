@@ -12,7 +12,7 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <div class="mb-3">
-                                <p>Apakah kamu ingin menghapus pemesanan barang <b>{{ $data->kode_barang }}</b> ?</p>
+                                <p>Apakah kamu ingin menghapus pemesanan barang <b>{{ $data->nama }}</b> ?</p>
                             </div>
                         </div>
                     </div>
@@ -138,7 +138,7 @@
                                 <div class="p-3 bg-white rounded">
 
                                     <div class="text-center">
-                                        <img src="{{ asset(Str::replace(url('/') . '/img/profile/', '', '/img/profile/' . $data->barang_masuk->data_barang->foto_barang)) }}"
+                                        <img src="{{ asset(Str::replace(url('/') . '/img/barang/', '', '/img/barang/' . $data->barang_masuk->data_barang->foto_barang)) }}"
                                             alt="" width="500">
                                     </div>
 

@@ -73,7 +73,7 @@
                         transaksi</a>
                     <div class="dropdown-menu bg-transparent border-0 show" data-bs-popper="none">
                         <a href="{{ route('pemesanan-barang.index') }}"
-                            class="dropdown-item {{ request()->is('admin/data-transaksi/pemesanan-barang*') ? 'active' : '' }}">Pemesanan
+                            class="dropdown-item {{ request()->is('admin/data-transaksi/pemesanan-barang*','admin/data-transaksi/list-item/*','/admin/data-transaksi/order/*') ? 'active' : '' }}">Pemesanan
                             ke supplier</a>
                         <a href="{{ route('pembayaran.index') }}"
                             class="dropdown-item {{ request()->is('admin/data-transaksi/pembayaran*') ? 'active' : '' }}">Pembayaran
@@ -126,7 +126,7 @@
                             Barang</a>
                     </div>
                 </div>
-                @if (PemesananAdmin::get()->isEmpty())
+                @if (!PemesananAdmin::get()->isEmpty())
                 <a href="{{ route('admin.pembayaran.index') }}"
                 class="nav-item nav-link {{ request()->is('supplier/pembayaran*') ? 'active' : '' }}"><i
                     class="fas fa-dollar-sign me-2"></i>Pembayaran</a>
@@ -146,7 +146,7 @@
                         transaksi</a>
                     <div class="dropdown-menu bg-transparent border-0 show" data-bs-popper="none">
                         <a href="{{ route('pemesanan-barang-konsumen.index') }}"
-                            class="dropdown-item {{ request()->is('konsumen/data-transaksi/pemesanan-barang-konsumen*') ? 'active' : '' }}">Pemesanan
+                            class="dropdown-item {{ request()->is('konsumen/data-transaksi/pemesanan-barang-konsumen*','konsumen/data-transaksi/detail_item/*') ? 'active' : '' }}">Pemesanan
                             ke admin</a>
                         <a href="{{ route('pembayaran-konsumen.index') }}"
                             class="dropdown-item {{ request()->is('konsumen/data-transaksi/pembayaran*') ? 'active' : '' }}">Pembayaran

@@ -21,7 +21,7 @@
 
                     <div class="center-text my-3">
                         <h5 class="text-uppercase">Deskripsi</h5>
-                        <p style="text-align: justify;">{{$data_barang->deskripsi}}</p>
+                        <p style="text-align: justify;">{{ $data_barang->deskripsi }}</p>
                     </div>
 
                     <h5 class="text-uppercase">informasi detail</h5>
@@ -49,7 +49,8 @@
                     </div>
                     <div class="col-4 col-lg-4 mt-2 mt-lg-5 ms-auto">
                         <div class="d-flex">
-                            <a href="{{route('pemesanan-barang.list-item',$data_barang->supplier->id)}}" class="btn btn-secondary w-100 me-2">Kembali</a>
+                            <a href="{{ route('pemesanan-barang.list-item', $data_barang->supplier->id) }}"
+                                class="btn btn-secondary w-100 me-2">Kembali</a>
                             <button class="btn btn-danger text-white w-100" data-bs-toggle="modal"
                                 data-bs-target="#pemesanan-barang-{{ $data_barang->id }}">Beli</button>
                         </div>
@@ -66,10 +67,10 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Pemesanan Barang</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{route('pemesanan-barang.store')}}" method="post">
+                <form action="{{ route('pemesanan-barang.store') }}" method="post">
                     @csrf
                     <div class="modal-body">
-                        <input class="form-control" type="hidden" name="id" value="{{$data_barang->id}}">
+                        <input class="form-control" type="hidden" name="id" value="{{ $data_barang->id }}">
                         <div class="mb-3">
                             <label for="" class="form-label">Jumlah Pesanan</label>
                             <input class="form-control" type="number" name="jumlah" placeholder="masukan jumlah pesanan"

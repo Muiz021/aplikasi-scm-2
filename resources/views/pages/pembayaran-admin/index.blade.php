@@ -30,8 +30,10 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            
                                 @foreach ($pemesanan_admin as $key => $item)
                                     <tr>
+
                                         <td>{{ $pemesanan_admin->firstItem() + $key }}</td>
                                         <td>{{ Carbon::parse($item->waktu_pemesanan)->isoFormat('dddd, DD MMMM YYYY') }}
                                         </td>

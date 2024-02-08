@@ -7,7 +7,9 @@ use App\Models\DataBarang;
 use App\Models\BarangMasuk;
 use Illuminate\Http\Request;
 use App\Models\PemesananKonsumen;
-use Illuminate\Support\Facades\Auth;
+use App\Models\DataBarang;
+use App\Models\PemesananKonsumenDetail;
+use App\Models\User;
 use Illuminate\Support\Facades\Response;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -16,9 +18,25 @@ class PemesananKonsumenController extends Controller
 
     public function index()
     {
+        $user = Auth::user();
+        $konsumen = $user->konsumen->id;
         $pemesanan_konsumen =
-            PemesananKonsumen::where('status', null)->paginate(10);
+            PemesananKonsumen::where('status', null)->where('konsumen_id', $konsumen)->paginate(10);
         return view('pages.order-konsumen.index', compact('pemesanan_konsumen'));
+    }
+
+    public function list_items()
+    {
+
+        $data_barang = BarangMasuk::all();
+
+        return view('pages.order-konsumen.list-item', compact('data_barang'));
+    }
+
+    public function order($id)
+    {
+        $data_barang = BarangMasuk::find($id);
+        return view('pages.order-konsumen.detail-item', compact('data_barang'));
     }
 
     public function create()
@@ -35,6 +53,7 @@ class PemesananKonsumenController extends Controller
 
     public function store(Request $request)
     {
+        // mengambil semua data
         $data = $request->all();
         $barangMasuk = BarangMasuk::where('id', $request->id)->first();
 
@@ -43,39 +62,44 @@ class PemesananKonsumenController extends Controller
         $konsumen = $user->konsumen;
         $konsumen_id = $konsumen->id;
 
-        // Check if 'jumlah' exists in $data
-        if (!isset($data['jumlah'])) {
-            return redirect()->back()->with('error', 'Error: Invalid quantity.')->withInput();
-        }
+        // Validation rules
+        $rules = [
+            'barang_masuk_id' => 'required',
+            'harga' => 'required|numeric',
+            'nama_barang' => 'required',
+            'jumlah' => 'required|numeric|min:1', // Make sure it's a positive number
+            'kode_pesan' => 'required',
+        ];
 
-        if ($data['jumlah'] > $barangMasuk->jumlah) {
-            return redirect()->back()->with('error', 'Error: Insufficient stock.')->withInput();
+        // Custom error messages
+        $messages = [
+            'jumlah.min' => 'The quantity must be at least 1.',
+        ];
+
+        // Validate the request
+        $request->validate($rules, $messages);
+
+        // Check if the quantity is greater than available stock
+        $stokBarang = BarangMasuk::find($data['barang_masuk_id'])->jumlah;
+        if ($data['jumlah'] > $stokBarang) {
+            return redirect()->back()->with('error', 'Error: Stok barang tidak cukup.')->withInput();
         }
 
         // Calculate total
-        $total =  $data['jumlah'] * $barangMasuk->data_barang->harga_barang;
-
-        $latest_pemesanankonsumen = PemesananKonsumen::latest('kode_pemesanan')->first();
-        if ($latest_pemesanankonsumen) {
-            $angkaData = intval(preg_replace('/[^0-9]/', '', $latest_pemesanankonsumen->kode_konsumen));
-            $kode_konsumen = 'KPK' . str_pad($angkaData + 1, 3, '0', STR_PAD_LEFT);
-        } else {
-            $kode_konsumen = 'KPK001';
-        }
+        $total = $data['harga'] * $data['jumlah'];
 
         // Create the record
         PemesananKonsumen::create([
-            'barang_masuk_id' => $barangMasuk->id,
-            'harga_barang' => $barangMasuk->data_barang->harga_barang,
-            'nama_barang' => $barangMasuk->data_barang->nama_barang,
+            'barang_masuk_id' => $data['barang_masuk_id'],
+            'harga_barang' => $data['harga'],
+            'nama_barang' => $data['nama_barang'],
             'konsumen_id' => $konsumen_id,
             'waktu_pemesanan' => $today,
-            'kode_pemesanan' => $kode_konsumen,
+            'kode_pemesanan' => $data['kode_pesan'],
             'jumlah' => $data['jumlah'],
             'total' => $total
         ]);
 
-        Alert::success("Success", "Kamu berhasi membuat pesanan");
         return redirect()->route('pemesanan-barang-konsumen.index');
     }
 
